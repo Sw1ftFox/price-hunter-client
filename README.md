@@ -1,4 +1,5 @@
 ## Структура проекта
+```
 src
 ├── app
 │   ├── providers
@@ -31,3 +32,4 @@ src
 │       └── PageLoader
 ├── widgets
 └── main.tsx
+```
