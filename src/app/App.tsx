@@ -1,8 +1,12 @@
+import { AppRouter } from "./providers/router";
+
 function App() {
 
-  return (
-      <div>App component</div>
-  );
+    return (
+        <div>
+            <AppRouter />
+        </div>
+    );
 }
 
 export default App;

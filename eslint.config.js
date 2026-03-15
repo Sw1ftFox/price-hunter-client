@@ -3,8 +3,8 @@ import globals from "globals";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
-import importPlugin from 'eslint-plugin-import';
-import reactPlugin from 'eslint-plugin-react';
+import importPlugin from "eslint-plugin-import";
+import reactPlugin from "eslint-plugin-react";
 import { defineConfig, globalIgnores } from "eslint/config";
 
 export default defineConfig([
@@ -26,7 +26,7 @@ export default defineConfig([
       react: reactPlugin,
     },
     rules: {
-      "react/jsx-indent": [2, 4],
+      'indent': [2, 4],
       "import/prefer-default-export": "off",
       "react/react-in-jsx-scope": "off",
       "react/jsx-filename-extension": [
@@ -43,6 +43,7 @@ export default defineConfig([
       "import/no-extraneous-dependencies": "warn",
       "no-underscore-dangle": "off",
       "max-len": ["error", { ignoreComments: true, code: 100 }],
+      "react-refresh/only-export-components": "warn",
     },
   },
 ]);
