@@ -6,11 +6,11 @@ interface ProductDetailPageProps {
 }
 
 const ProductDetailPage = ({ className }: ProductDetailPageProps) => {
-    return (
-        <div className={classNames(cls.ProductDetailPage, className)}>
+  return (
+    <div className={classNames(cls.ProductDetailPage, className)}>
       ProductDetailPage
-        </div>
-    );
+    </div>
+  );
 };
 
 export default ProductDetailPage;
