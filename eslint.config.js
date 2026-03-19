@@ -26,7 +26,7 @@ export default defineConfig([
       react: reactPlugin,
     },
     rules: {
-      'indent': [2, 4],
+      indent: [2, 2],
       "import/prefer-default-export": "off",
       "react/react-in-jsx-scope": "off",
       "react/jsx-filename-extension": [
