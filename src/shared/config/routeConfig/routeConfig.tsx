@@ -1,7 +1,7 @@
-import { AuthPage } from "@/pages/AuthPage/ui/AuthPage";
-import { NotFoundPage } from "@/pages/NotFoundPage/ui/NotFoundPage";
-import { ProductDetailPageAsync } from "@/pages/ProductDetailPage/ui/ProductDetailPage.async";
-import { ProductsPageAsync } from "@/pages/ProductsPage/ui/ProductsPage.async";
+import { AuthPage } from "@/pages/AuthPage";
+import { NotFoundPage } from "@/pages/NotFoundPage";
+import { ProductDetailPageAsync } from "@/pages/ProductDetailPage";
+import { ProductsPageAsync } from "@/pages/ProductsPage";
 import ProtectedRoute from "@/shared/ui/ProtectedRoute/ProtectedRoute";
 import type { RouteProps } from "react-router-dom";
 

@@ -1,4 +1,4 @@
-import type { Notification } from "../useNotifications/types/Notification";
+import type { Notification } from "@/shared/types/Notification";
 
 export const mockNotification: Notification = {
   enabled: true,

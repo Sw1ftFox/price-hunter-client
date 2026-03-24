@@ -3,7 +3,7 @@ import type {
   Price,
   PreviewProduct,
   ProductDetailInfo
-} from "../useProductsStore/types/Product";
+} from "@/shared/types/Product";
 
 export const mockProducts: Product[] = [
   {

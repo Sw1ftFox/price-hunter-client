@@ -1,4 +1,4 @@
-import type { User } from "../useAuthStore/types/User";
+import type { User } from "@/shared/types/User";
 
 export const mockUser: User = {
   id: 42,

@@ -1,5 +1,5 @@
-import classNames from 'classnames';
-import cls from './ProductDetailPage.module.scss';
+import classNames from "classnames";
+import cls from "./ProductDetailPage.module.scss";
 
 interface ProductDetailPageProps {
   className?: string;
