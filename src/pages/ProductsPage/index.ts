@@ -1,0 +1,1 @@
+export { ProductsPageAsync } from './ui/ProductsPage.async'

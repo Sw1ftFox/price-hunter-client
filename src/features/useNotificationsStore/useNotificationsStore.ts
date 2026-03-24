@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import axios from 'axios';
 import { API_BASE } from '@/app/api/config';
-import type { Notification, NotificationActions } from './types/Notification';
+import type { Notification, NotificationActions } from '@/shared/types/Notification';
 import { mockNotification } from '../mocks/Notification';
 
 interface NotificationState {

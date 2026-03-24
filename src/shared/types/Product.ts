@@ -1,4 +1,4 @@
-import type { Notification } from "../../useNotifications/types/Notification"
+import type { Notification } from "@/shared/types/Notification"
 
 export interface Product {
   id: number,

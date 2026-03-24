@@ -1,5 +1,10 @@
 import { create } from 'zustand';
-import type { PreviewProduct, Product, ProductActions, ProductDetailInfo } from './types/Product';
+import type {
+  PreviewProduct,
+  Product,
+  ProductActions,
+  ProductDetailInfo
+} from '@/shared/types/Product';
 import {
   mockNewProduct,
   mockPreviewProduct,
