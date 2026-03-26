@@ -1,7 +1,7 @@
 import { useAuthStore } from "@/features/useAuthStore/useAuthStore";
 import type { FC, JSX } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { StorageService } from "@/shared/utils/StorageService/StorageService";
+import { StorageService } from "@/shared/utils/StorageService";
 
 interface ProtectedRouteProps {
   children: JSX.Element;

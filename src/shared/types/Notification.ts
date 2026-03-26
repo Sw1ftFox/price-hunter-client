@@ -4,6 +4,6 @@ export interface Notification {
 }
 
 export interface NotificationActions {
-  addNotification: (id: number, tresholdPrice: number, enabled: boolean) => void,
-  deleteNotification: (id: number, enabled: boolean) => void,
+  addNotification: (id: string, tresholdPrice: number, enabled: boolean) => void,
+  deleteNotification: (id: string, enabled: boolean) => void,
 }

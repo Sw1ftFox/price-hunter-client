@@ -1,9 +1,18 @@
+import { ConfigProvider } from "antd";
 import { AppRouter } from "./providers/router";
 
 function App() {
   return (
     <div>
-      <AppRouter />
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary: "#FFD700",
+          },
+        }}
+      >
+        <AppRouter />
+      </ConfigProvider>
     </div>
   );
 }

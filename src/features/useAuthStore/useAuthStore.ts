@@ -3,7 +3,7 @@ import axios from 'axios';
 import { API_BASE } from '@/app/api/config';
 import type { AuthActions, User } from '@/shared/types/User';
 import { mockUser } from '../mocks/User';
-import { StorageService } from '@/shared/utils/StorageService/StorageService';
+import { StorageService } from '@/shared/utils/StorageService';
 
 interface AuthState {
   user: User | null,
