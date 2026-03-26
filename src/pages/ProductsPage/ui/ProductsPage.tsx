@@ -1,28 +1,18 @@
-import classNames from "classnames";
-import cls from "./ProductsPage.module.scss";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { ProductList } from "@/widgets/ProductList";
 import { useAuthStore } from "@/features/useAuthStore/useAuthStore";
-import { useProductsStore } from "@/features/useProductsStore/useProductsStore";
-import { useEffect } from "react";
-import { PageLoader } from "@/shared/ui/PageLoader/PageLoader";
+import { useState } from "react";
+import { AddProductModal } from "@/widgets/AddProductModal";
+import { BackLink } from "@/shared/ui/BackLink/BackLink";
+import { Header } from "@/widgets/Header";
+import { type ProductSortType } from "@/shared/types/ProductSort";
 
-interface ProductsPageProps {
-  className?: string;
-}
-
-const ProductsPage = ({ className }: ProductsPageProps) => {
-  const products = useProductsStore((state) => state.products);
-  const isLoading = useProductsStore((state) => state.isLoading);
-  const isError = useProductsStore((state) => state.isError);
-  const errorMessage = useProductsStore((state) => state.errorMessage);
-  const fetchProducts = useProductsStore((state) => state.fetchProducts);
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
+const ProductsPage = () => {
   const logout = useAuthStore((state) => state.logout);
   const navigate = useNavigate();
+  const [term, setTerm] = useState<string>("");
+  const [sortType, setSortType] = useState<ProductSortType | null>(null);
+  const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
 
   const onExit = () => {
     logout(() => {
@@ -30,22 +20,31 @@ const ProductsPage = ({ className }: ProductsPageProps) => {
     });
   };
 
-  const loading = isLoading ? <PageLoader /> : null;
-  const content =
-    !isLoading && !isError
-      ? products.map((product) => <div key={product.id}>{product.name}</div>)
-      : null;
-  const error = isError && !isLoading ? <div>{errorMessage}</div> : null;
-
   return (
-    <div className={classNames(cls.ProductsPage, className)}>
-      <Link to={"/login"} onClick={onExit}>
-        Вернуться назад
-      </Link>
+    <div
+      style={{
+        padding: "1rem",
+        minHeight: "100vh",
+        width: "100vw",
+        display: "flex",
+        flexDirection: "column",
+        gap: "1rem",
+        backgroundColor: "#f9f9f9",
+      }}
+    >
+      <BackLink onClick={onExit} />
 
-      {loading}
-      {content}
-      {error}
+      <Header
+        setTerm={setTerm}
+        setSortType={setSortType}
+        setIsAddModalOpen={setIsAddModalOpen}
+      />
+
+      <ProductList term={term} sortType={sortType} />
+      <AddProductModal
+        isOpenModal={isAddModalOpen}
+        setIsModalOpen={setIsAddModalOpen}
+      />
     </div>
   );
 };

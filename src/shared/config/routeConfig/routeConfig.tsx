@@ -17,7 +17,7 @@ export type AppRoutesValues = (typeof AppRoutes)[keyof typeof AppRoutes];
 
 export const RoutePath: Record<AppRoutesValues, string> = {
   [AppRoutes.LOGIN]: "/login",
-  [AppRoutes.REGISTER]: "/register",
+  [AppRoutes.REGISTER]: "/",
   [AppRoutes.PRODUCTS]: "/products",
   [AppRoutes.PRODUCTS_ID]: "/products/:id",
   [AppRoutes.NOT_FOUND]: "*",

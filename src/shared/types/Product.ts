@@ -1,7 +1,7 @@
 import type { Notification } from "@/shared/types/Notification"
 
 export interface Product {
-  id: number,
+  id: string,
   nmId: string,
   name: string,
   brand: string,
@@ -20,7 +20,7 @@ export interface Price {
 }
 
 export interface ProductDetailInfo {
-  id: number,
+  id: string,
   nmId: string,
   name: string,
   brand: string,
@@ -47,5 +47,5 @@ export interface ProductActions {
   fetchProductDetailInfo: (id: number) => void,
   addProduct: (url: string) => void,
   previewProduct: (url: string) => void,
-  deleteProduct: (id: number) => void,
+  deleteProduct: (id: string) => void,
 }

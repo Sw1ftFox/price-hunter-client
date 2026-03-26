@@ -1,14 +1,9 @@
-import classNames from "classnames";
-import cls from "./AuthPage.module.scss";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/features/useAuthStore/useAuthStore";
 import { PageLoader } from "@/shared/ui/PageLoader/PageLoader";
+import { Button } from "antd";
 
-interface AuthPageProps {
-  className?: string;
-}
-
-export const AuthPage = ({ className }: AuthPageProps) => {
+export const AuthPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const fromPage = location.state?.from?.pathname || "/products";
@@ -28,13 +23,13 @@ export const AuthPage = ({ className }: AuthPageProps) => {
   const loading = isLoading ? <PageLoader /> : null;
   const content =
     !isLoading && !isError ? (
-      <button onClick={() => onAuth("someemail", "somepassword")}>
+      <Button onClick={() => onAuth("someemail", "somepassword")}>
         Войти в аккаунт
-      </button>
+      </Button>
     ) : null;
 
   return (
-    <div className={classNames(cls.AuthPage, className)}>
+    <div>
       {content}
       {loading}
       {error}

@@ -65,13 +65,24 @@ export const useProductsStore = create<ProductState & ProductActions>((set) => (
   },
   addProduct: (url) => {
     set({ isLoading: true, isError: false, errorMessage: '' });
-    axios.post(`${API_BASE}/products`, {
+    // axios.post(`${API_BASE}/products`, {
+    axios.post(`${API_BASE}`, {
       url
     })
       .then((response) => {
         // set((state) => ({ isLoading: false, products: [...state.products, response.data] }))
         // ВРЕМЕННО МОКИ
-        set((state) => ({ isLoading: false, products: [...state.products, mockNewProduct] }))
+        set((state) => ({
+          isLoading: false,
+          products:
+            [
+              ...state.products,
+              {
+                ...mockNewProduct,
+                id: Math.random().toString(36).substring(2, 9) + Date.now().toString(36)
+              }
+            ]
+        }))
       })
       .catch(function (error) {
         set({
@@ -82,26 +93,20 @@ export const useProductsStore = create<ProductState & ProductActions>((set) => (
       });
   },
   previewProduct: (url) => {
-    set({ isLoading: true, isError: false, errorMessage: '' });
-    axios.post(`${API_BASE}/products/preview`, {
+    // axios.post(`${API_BASE}/products/preview`, {
+    axios.post(`${API_BASE}`, {
       url
     })
       .then((response) => {
         // set({ isLoading: false, preview: response.data });
         // ВРЕМЕННО МОКИ
-        set({ isLoading: false, preview: mockPreviewProduct });
+        set({ preview: mockPreviewProduct });
       })
-      .catch(function (error) {
-        set({
-          isLoading: false,
-          isError: true,
-          errorMessage: error.message
-        })
-      });
   },
   deleteProduct: (id) => {
     set({ isLoading: true, isError: false, errorMessage: '' });
-    axios.delete(`${API_BASE}/products/${id}`)
+    // axios.delete(`${API_BASE}/products/${id}`)
+    axios.delete(`${API_BASE}/1`)
       .then(() => {
         set((state) => ({
           isLoading: false,

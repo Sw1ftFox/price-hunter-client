@@ -7,7 +7,7 @@ import type {
 
 export const mockProducts: Product[] = [
   {
-    id: 1,
+    id: Math.random().toString(36).substring(2, 9) + Date.now().toString(36),
     nmId: '311322319',
     name: 'Бомбочки для ванны подарочный набор bonbons 360 гр',
     brand: 'Laboratory KATRIN',
@@ -20,7 +20,7 @@ export const mockProducts: Product[] = [
     url: 'https://www.wildberries.ru/catalog/311322319/detail.aspx',
   },
   {
-    id: 2,
+    id: Math.random().toString(36).substring(2, 9) + Date.now().toString(36),
     nmId: '1218758714',
     name: 'LIMALAMA Ремень мужской кожаный',
     brand: 'LIMALAMA',
@@ -33,11 +33,37 @@ export const mockProducts: Product[] = [
     url: 'https://www.ozon.ru/product/limalama-remen-remen-muzhskoy-kozhanyy-1218758714/',
   },
   {
-    id: 3,
+    id: Math.random().toString(36).substring(2, 9) + Date.now().toString(36),
     nmId: '123456789',
     name: 'Смартфон Xiaomi Redmi Note 13',
     brand: 'Xiaomi',
-    image: 'https://ir-3.ozone.ru/s3/multimedia-1-x/1234567890.jpg',
+    image: 'https://ir-3.ozone.ru/s3/multimedia-1-x/8242310085.jpg',
+    currentPrice: 24990,
+    priceChange: -500,
+    priceChangePercent: -1.96,
+    lastChecked: '2026-03-19T09:45:00Z',
+    marketplace: 'wb',
+    url: 'https://www.wildberries.ru/catalog/123456789/detail.aspx',
+  },
+  {
+    id: Math.random().toString(36).substring(2, 9) + Date.now().toString(36),
+    nmId: '123456789',
+    name: 'Смартфон Xiaomi Redmi Note 13',
+    brand: 'Xiaomi',
+    image: '',
+    currentPrice: 24990,
+    priceChange: -500,
+    priceChangePercent: -1.96,
+    lastChecked: '2026-03-19T09:45:00Z',
+    marketplace: 'wb',
+    url: 'https://www.wildberries.ru/catalog/123456789/detail.aspx',
+  },
+  {
+    id: Math.random().toString(36).substring(2, 9) + Date.now().toString(36),
+    nmId: '123456789',
+    name: 'Смартфон Xiaomi Redmi Note 13',
+    brand: 'Xiaomi',
+    image: '',
     currentPrice: 24990,
     priceChange: -500,
     priceChangePercent: -1.96,
@@ -48,7 +74,7 @@ export const mockProducts: Product[] = [
 ];
 
 export const mockNewProduct: Product = {
-  id: 4,
+  id: 'somestring',
   nmId: '123456789',
   name: 'Смартфон Xiaomi Redmi Note 13',
   brand: 'Xiaomi',
@@ -71,7 +97,7 @@ export const mockPriceHistory: Price[] = [
 ];
 
 export const mockProductDetail: ProductDetailInfo = {
-  id: 1,
+  id: Math.random().toString(36).substring(2, 9) + Date.now().toString(36),
   nmId: '311322319',
   name: 'Бомбочки для ванны подарочный набор bonbons 360 гр',
   brand: 'Laboratory KATRIN',
