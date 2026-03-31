@@ -87,13 +87,33 @@ export const mockNewProduct: Product = {
   url: 'https://www.wildberries.ru/catalog/123456789/detail.aspx',
 }
 
+// export const mockPriceHistory: Price[] = [
+//   { date: '2026-03-14T10:00:00Z', price: 1500 },
+//   { date: '2026-03-15T10:00:00Z', price: 1490 },
+//   { date: '2026-03-16T10:00:00Z', price: 1480 },
+//   { date: '2026-03-17T10:00:00Z', price: 1460 },
+//   { date: '2026-03-18T10:00:00Z', price: 1450 },
+//   { date: '2026-03-19T10:00:00Z', price: 1450 },
+// ];
+
+// export const mockPriceHistory: Price[] = [
+//   { date: '2026-03-23T10:00:00Z', price: 2200 },
+//   { date: '2026-03-24T10:00:00Z', price: 2150 },
+//   { date: '2026-03-25T10:00:00Z', price: 2100 },
+//   { date: '2026-03-26T10:00:00Z', price: 2050 },
+//   { date: '2026-03-27T10:00:00Z', price: 2000 },
+//   { date: '2026-03-28T10:00:00Z', price: 1980 },
+//   { date: '2026-03-29T10:00:00Z', price: 1950 },
+// ];
+
 export const mockPriceHistory: Price[] = [
-  { date: '2026-03-14T10:00:00Z', price: 1500 },
-  { date: '2026-03-15T10:00:00Z', price: 1490 },
-  { date: '2026-03-16T10:00:00Z', price: 1480 },
-  { date: '2026-03-17T10:00:00Z', price: 1460 },
-  { date: '2026-03-18T10:00:00Z', price: 1450 },
-  { date: '2026-03-19T10:00:00Z', price: 1450 },
+  { date: '2026-03-23T10:00:00Z', price: 1200 },
+  { date: '2026-03-24T10:00:00Z', price: 1250 },
+  { date: '2026-03-25T10:00:00Z', price: 1280 },
+  { date: '2026-03-26T10:00:00Z', price: 1300 },
+  { date: '2026-03-27T10:00:00Z', price: 1330 },
+  { date: '2026-03-28T10:00:00Z', price: 1350 },
+  { date: '2026-03-29T10:00:00Z', price: 1380 },
 ];
 
 export const mockProductDetail: ProductDetailInfo = {

@@ -49,7 +49,8 @@ export const useProductsStore = create<ProductState & ProductActions>((set) => (
   },
   fetchProductDetailInfo: (id) => {
     set({ isLoading: true, isError: false, errorMessage: '' });
-    axios.get(`${API_BASE}/products/${id}`)
+    // axios.get(`${API_BASE}/products/${id}`)
+    axios.get(`${API_BASE}`)
       .then((response) => {
         // set({ isLoading: false, currentProduct: response.data })
         // ВРЕМЕННО МОКИ
