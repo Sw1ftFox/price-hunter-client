@@ -24,6 +24,9 @@ export const ProductChart = ({ priceHistory }: ProductChartProps) => {
     date: DateFormatter.formatDate(item.date),
   }));
 
+  const prices = pricesWithFormattedDate.map((item) => item.price);
+  const upperLimitYAxis = Math.max(...prices) * 1.5;
+
   return (
     <Card
       title={
@@ -43,6 +46,7 @@ export const ProductChart = ({ priceHistory }: ProductChartProps) => {
           <YAxis
             tickFormatter={(value) => `${value} ₽`}
             label={{ value: "Цена", angle: -90, position: "insideLeft" }}
+            domain={[0, upperLimitYAxis]}
           />
           <Tooltip content={<CustomTooltip />} />
           <Legend verticalAlign="top" height={36} />

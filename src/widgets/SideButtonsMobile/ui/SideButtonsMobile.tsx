@@ -1,42 +1,46 @@
 import { useState } from "react";
-import { Button, Drawer, Flex, InputNumber, message } from "antd";
-import { MenuOutlined } from "@ant-design/icons";
+import { Button, Drawer, Flex, InputNumber } from "antd";
+import {
+  BellFilled,
+  BellOutlined,
+  DeleteOutlined,
+  MenuOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
+import { useTrackingNotifications } from "@/shared/hooks/useTrackingNotifications";
+import { DeleteProductModal } from "@/widgets/DeleteProductModal";
+import type { ProductDetailInfo } from "@/shared/types/Product";
 
 interface SideButtonsMobileProps {
   className: string;
+  product: ProductDetailInfo | null;
+  productId: string;
 }
 
-export const SideButtonsMobile = ({ className }: SideButtonsMobileProps) => {
+export const SideButtonsMobile = ({
+  className,
+  product,
+  productId,
+}: SideButtonsMobileProps) => {
   const [open, setOpen] = useState(false);
+
+  const {
+    isTrackingActive,
+    showThresholdInput,
+    handleStartTracking,
+    threshold,
+    setThreshold,
+    handleUpdate,
+    handleDelete,
+    handleConfirm,
+    handleCancel,
+    handleStopTracking,
+  } = useTrackingNotifications(productId, product?.notification.enabled);
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
   const showDrawer = () => setOpen(true);
   const onClose = () => setOpen(false);
-
-  const [isTrackingActive, setIsTrackingActive] = useState(false);
-  const [showThresholdInput, setShowThresholdInput] = useState(false);
-  const [threshold, setThreshold] = useState<number | null>(null);
-
-  const handleStartTracking = () => {
-    setShowThresholdInput(true);
-  };
-
-  const handleConfirm = () => {
-    if (threshold && threshold > 0) {
-      // здесь сохранение уведомления (например, в сторе)
-      setIsTrackingActive(true);
-      setShowThresholdInput(false);
-      message.success(`Уведомление установлено на ${threshold} ₽`);
-    } else {
-      message.warning("Введите корректный порог");
-    }
-  };
-
-  const handleStopTracking = () => {
-    // удаление уведомления
-    setIsTrackingActive(false);
-    setThreshold(null);
-    message.info("Отслеживание отключено");
-  };
 
   return (
     <div className={className}>
@@ -72,17 +76,19 @@ export const SideButtonsMobile = ({ className }: SideButtonsMobileProps) => {
               border: "1px solid green",
               width: "100%",
             }}
+            onClick={handleUpdate}
           >
+            <ReloadOutlined />
             Обновить
           </Button>
           <Button
             type="primary"
             danger
             ghost
-            style={{
-              width: "100%",
-            }}
+            style={{ width: "100%" }}
+            onClick={() => setIsDeleteModalOpen(true)}
           >
+            <DeleteOutlined />
             Удалить
           </Button>
           {!isTrackingActive && !showThresholdInput && (
@@ -95,6 +101,7 @@ export const SideButtonsMobile = ({ className }: SideButtonsMobileProps) => {
                 width: "100%",
               }}
             >
+              <BellOutlined />
               Отслеживать
             </Button>
           )}
@@ -120,6 +127,15 @@ export const SideButtonsMobile = ({ className }: SideButtonsMobileProps) => {
               >
                 Подтвердить
               </Button>
+              <Button
+                type="primary"
+                danger
+                ghost
+                style={{ width: "100%" }}
+                onClick={handleCancel}
+              >
+                Отменить
+              </Button>
             </>
           )}
 
@@ -132,11 +148,17 @@ export const SideButtonsMobile = ({ className }: SideButtonsMobileProps) => {
                 width: "100%",
               }}
             >
+              <BellFilled />
               Перестать отслеживать
             </Button>
           )}
         </Flex>
       </Drawer>
+      <DeleteProductModal
+        handleDelete={handleDelete}
+        isModalOpen={isDeleteModalOpen}
+        setIsModalOpen={setIsDeleteModalOpen}
+      />
     </div>
   );
 };

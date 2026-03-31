@@ -22,7 +22,7 @@ export const ProductInfo = ({
     if (productId) {
       fetchProduct(productId);
     }
-  }, [fetchProduct]);
+  }, [fetchProduct, productId]);
 
   const prices = product?.priceHistory.map((item) => item.price) ?? [];
 

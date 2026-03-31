@@ -29,7 +29,16 @@ export const ProductForecast = ({ priceHistory }: ProductForecastProps) => {
           <RocketOutlined /> Прогнозирование
         </Space>
       }
-      style={{ width: "100%" }}
+      style={{
+        width: "100%",
+      }}
+      styles={{
+        body: {
+          display: "flex",
+          flexDirection: "column",
+          gap: 10,
+        },
+      }}
     >
       <Paragraph
         style={{

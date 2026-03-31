@@ -1,5 +1,4 @@
-import { useNotificationsStore } from "@/features/useNotificationsStore/useNotificationsStore";
-import { useProductsStore } from "@/features/useProductsStore/useProductsStore";
+import { useTrackingNotifications } from "@/shared/hooks/useTrackingNotifications";
 import type { ProductDetailInfo } from "@/shared/types/Product";
 import { DeleteProductModal } from "@/widgets/DeleteProductModal";
 import {
@@ -8,83 +7,34 @@ import {
   DeleteOutlined,
   ReloadOutlined,
 } from "@ant-design/icons";
-import { App, Button, Flex, InputNumber } from "antd";
+import { Button, Flex, InputNumber } from "antd";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 interface SideButtonsProps {
   className: string;
   product: ProductDetailInfo | null;
-  fetchProduct: (productId: string) => void;
   productId: string;
 }
 
 export const SideButtons = ({
   className,
   product,
-  fetchProduct,
   productId,
 }: SideButtonsProps) => {
-  const { message } = App.useApp();
+  const {
+    isTrackingActive,
+    showThresholdInput,
+    handleStartTracking,
+    threshold,
+    setThreshold,
+    handleUpdate,
+    handleDelete,
+    handleConfirm,
+    handleCancel,
+    handleStopTracking,
+  } = useTrackingNotifications(productId, product?.notification.enabled);
 
-  const deleteProduct = useProductsStore((state) => state.deleteProduct);
-
-  const addNotification = useNotificationsStore(
-    (state) => state.addNotification,
-  );
-  const deleteNotification = useNotificationsStore(
-    (state) => state.deleteNotification,
-  );
-
-  const navigate = useNavigate();
-
-  const [isTrackingActive, setIsTrackingActive] = useState(
-    product?.notification.enabled || false,
-  );
-  const [showThresholdInput, setShowThresholdInput] = useState(false);
-  const [threshold, setThreshold] = useState<number | null>(
-    product?.notification.tresholdPrice || null,
-  );
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
-
-  const handleUpdate = () => {
-    if (productId) {
-      fetchProduct(productId);
-      message.success(`Информация о товаре обновлена`);
-    }
-  };
-
-  const handleDelete = () => {
-    if (productId) {
-      deleteProduct(productId);
-      message.success(`Товар успешно удален`);
-      navigate("/products");
-    }
-  };
-
-  const handleStartTracking = () => {
-    setShowThresholdInput(true);
-  };
-
-  const handleConfirm = () => {
-    if (threshold && threshold > 0 && productId) {
-      addNotification(productId, threshold, true);
-      setIsTrackingActive(true);
-      setShowThresholdInput(false);
-      message.success(`Уведомление установлено на ${threshold} ₽`);
-    } else {
-      message.warning("Введите корректный порог");
-    }
-  };
-
-  const handleStopTracking = () => {
-    if (productId) {
-      deleteNotification(productId, false);
-      setIsTrackingActive(false);
-      setThreshold(null);
-      message.info("Отслеживание отключено");
-    }
-  };
 
   return (
     <Flex
@@ -169,10 +119,7 @@ export const SideButtons = ({
             danger
             ghost
             style={{ width: "100%" }}
-            onClick={() => {
-              setShowThresholdInput(false);
-              setThreshold(null);
-            }}
+            onClick={handleCancel}
           >
             Отменить
           </Button>

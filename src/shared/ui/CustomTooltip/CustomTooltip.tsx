@@ -1,6 +1,6 @@
 interface CustomTooltipProps {
   active?: boolean;
-  payload?: { value: number; [key: string]: any }[];
+  payload?: { value: number; [key: string]: unknown }[];
   label?: string;
 }
 

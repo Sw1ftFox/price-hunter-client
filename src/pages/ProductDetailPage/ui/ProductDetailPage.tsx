@@ -47,11 +47,15 @@ const ProductDetailPage = () => {
             <SideButtons
               key={currentProduct?.id}
               className={cls.side__btns}
-              fetchProduct={fetchProductDetailInfo}
               product={currentProduct}
               productId={id || ""}
             />
-            <SideButtonsMobile className={cls.side__btns__mobile} />
+            <SideButtonsMobile
+              key={currentProduct?.id}
+              product={currentProduct}
+              productId={id || ""}
+              className={cls.side__btns__mobile}
+            />
           </Col>
         </Row>
       </Spin>
