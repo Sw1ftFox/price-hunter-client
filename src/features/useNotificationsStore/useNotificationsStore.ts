@@ -19,7 +19,7 @@ export const useNotificationsStore = create<NotificationState & NotificationActi
   addNotification: (id, tresholdPrice, enabled) => {
     set({ isLoading: true, isError: false, errorMessage: '' })
     // axios.get(`${API_BASE}/products/${id}/notification`)
-    axios.put(`${API_BASE}`, { tresholdPrice, enabled })
+    axios.put(`${API_BASE}/1`, { tresholdPrice, enabled })
       .then((response) => {
         // set({ isLoading: false, notification: response.data })
         // ВРЕМЕННО МОКИ
@@ -36,7 +36,7 @@ export const useNotificationsStore = create<NotificationState & NotificationActi
   deleteNotification: (id, enabled) => {
     set({ isLoading: true, isError: false, errorMessage: '' })
     // axios.get(`${API_BASE}/products/${id}/notification`)
-    axios.put(`${API_BASE}`, { enabled })
+    axios.put(`${API_BASE}/1`, { enabled })
       .then(() => {
         set({ isLoading: false, notification: null })
       })
