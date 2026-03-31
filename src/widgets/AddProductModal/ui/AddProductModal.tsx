@@ -10,6 +10,7 @@ import { TagGroup } from "@/shared/ui/TagGroup/TagGroup";
 import { NotificationCheckbox } from "@/shared/ui/NotificationCheckbox/NotificationCheckbox";
 import { PreviewProduct } from "@/shared/ui/PreviewProduct/PreviewProduct";
 import { TresholdInput } from "@/shared/ui/TresholdInput/TresholdInput";
+import { useNotificationsStore } from "@/features/useNotificationsStore/useNotificationsStore";
 
 interface AddProductModalProps {
   isOpenModal: boolean;
@@ -36,15 +37,24 @@ export const AddProductModal = ({
 
   const preview = useProductsStore((state) => state.preview);
   const addProduct = useProductsStore((state) => state.addProduct);
+  const isLoading = useProductsStore((state) => state.isLoading);
+  const addNotification = useNotificationsStore(
+    (state) => state.addNotification,
+  );
 
-  const onSubmit = (values: Values) => {
-    const { addMethod, url } = values;
+  const onSubmit = async (values: Values) => {
+    const { addMethod, url, isNotificationActive, treshold } = values;
+    let newProduct = null;
     if (addMethod === "article") {
-      addProduct(`https://www.wildberries.ru/catalog/${url}/detail.aspx`);
+      newProduct = await addProduct(
+        `https://www.wildberries.ru/catalog/${url}/detail.aspx`,
+      );
     } else if (addMethod === "link") {
-      addProduct(url);
+      newProduct = await addProduct(url);
     }
-
+    if (newProduct && isNotificationActive && treshold) {
+      addNotification(newProduct.id, treshold, true);
+    }
     setIsModalOpen(false);
   };
 
@@ -57,7 +67,11 @@ export const AddProductModal = ({
       }
       centered
       open={isOpenModal}
-      okButtonProps={{ autoFocus: true, htmlType: "submit" }}
+      okButtonProps={{
+        autoFocus: true,
+        htmlType: "submit",
+        disabled: isLoading,
+      }}
       destroyOnHidden
       onCancel={() => setIsModalOpen(false)}
       style={{ border: "3px solid #FFD700", borderRadius: 11 }}

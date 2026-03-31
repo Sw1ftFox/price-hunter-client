@@ -49,7 +49,7 @@ export const ProductList = ({ term, sortType }: ProductListProps) => {
   const loading = isLoading ? <SkeletonCards /> : null;
 
   const warning =
-    isEmpty && !isLoading ? (
+    isEmpty && !isLoading && !isError ? (
       <Alert
         title="Нет товаров"
         description="Добавьте товары для отслеживания"
