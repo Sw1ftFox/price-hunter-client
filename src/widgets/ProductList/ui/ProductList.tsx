@@ -1,10 +1,11 @@
 import { useEffect, useMemo } from "react";
 import { useProductsStore } from "@/features/useProductsStore/useProductsStore";
 import { ProductItem } from "@/widgets/ProductItem";
-import { Row, Col, Alert } from "antd";
+import { Alert } from "antd";
 import { ErrorAlert } from "@/shared/ui/ErrorAlert/ErrorAlert";
 import { SkeletonCards } from "@/shared/ui/SkeletonCards/SkeletonCards";
 import type { ProductSortType } from "@/shared/types/ProductSort";
+import cls from "./ProductList.module.scss";
 
 interface ProductListProps {
   term: string;
@@ -49,7 +50,7 @@ export const ProductList = ({ term, sortType }: ProductListProps) => {
   const loading = isLoading ? <SkeletonCards /> : null;
 
   const warning =
-    isEmpty && !isLoading ? (
+    isEmpty && !isLoading && !isError ? (
       <Alert
         title="Нет товаров"
         description="Добавьте товары для отслеживания"
@@ -62,13 +63,11 @@ export const ProductList = ({ term, sortType }: ProductListProps) => {
 
   const content =
     !isLoading && !isError && !isEmpty ? (
-      <Row gutter={[16, 16]}>
+      <div className={cls.products__list}>
         {filteredProducts.map((product) => (
-          <Col key={product.id} xs={12} sm={8} md={6} xl={4}>
-            <ProductItem product={product} />
-          </Col>
+          <ProductItem key={product.id} product={product} />
         ))}
-      </Row>
+      </div>
     ) : null;
 
   return (

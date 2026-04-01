@@ -45,7 +45,7 @@ export interface PreviewProduct {
 export interface ProductActions {
   fetchProducts: () => void,
   fetchProductDetailInfo: (id: string) => void,
-  addProduct: (url: string) => void,
+  addProduct: (url: string) => Promise<Product>,
   previewProduct: (url: string) => void,
   deleteProduct: (id: string) => void,
 }

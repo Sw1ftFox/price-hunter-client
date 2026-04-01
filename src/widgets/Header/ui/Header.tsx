@@ -3,6 +3,7 @@ import {
   ProductSort,
   type ProductSortType,
 } from "@/shared/types/ProductSort";
+import { PlusOutlined } from "@ant-design/icons";
 import { Button, Input, Select, Typography } from "antd";
 
 interface HeaderProps {
@@ -61,6 +62,7 @@ export const Header = ({
 
       <Button
         type="primary"
+        icon={<PlusOutlined />}
         style={{
           color: "#000",
           fontWeight: 600,

@@ -64,34 +64,33 @@ export const useProductsStore = create<ProductState & ProductActions>((set) => (
         })
       });
   },
-  addProduct: (url) => {
+  addProduct: async (url) => {
     set({ isLoading: true, isError: false, errorMessage: '' });
-    // axios.post(`${API_BASE}/products`, {
-    axios.post(`${API_BASE}`, {
-      url
-    })
-      .then((response) => {
-        // set((state) => ({ isLoading: false, products: [...state.products, response.data] }))
-        // ВРЕМЕННО МОКИ
-        set((state) => ({
-          isLoading: false,
-          products:
-            [
-              ...state.products,
-              {
-                ...mockNewProduct,
-                id: Math.random().toString(36).substring(2, 9) + Date.now().toString(36)
-              }
-            ]
-        }))
+    try {
+      // axios.post(`${API_BASE}/products`, {
+      const response = await axios.post(`${API_BASE}`, { url })
+      const newProduct = response.data;
+      // set((state) => ({ isLoading: false, products: [...state.products, response.data] }))
+      // ВРЕМЕННО МОКИ
+      set((state) => ({
+        isLoading: false,
+        products:
+          [
+            ...state.products,
+            {
+              ...mockNewProduct,
+              id: Math.random().toString(36).substring(2, 9) + Date.now().toString(36)
+            }
+          ]
+      }))
+      return newProduct;
+    } catch (error) {
+      set({
+        isLoading: false,
+        isError: true,
+        errorMessage: error.message
       })
-      .catch(function (error) {
-        set({
-          isLoading: false,
-          isError: true,
-          errorMessage: error.message
-        })
-      });
+    }
   },
   previewProduct: (url) => {
     // axios.post(`${API_BASE}/products/preview`, {
