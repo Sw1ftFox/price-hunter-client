@@ -7,6 +7,8 @@ import { Col, Flex, Row, Spin } from "antd";
 import cls from "./ProductDetailPage.module.scss";
 import { useProductsStore } from "@/features/useProductsStore/useProductsStore";
 import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { ErrorAlert } from "@/shared/ui/ErrorAlert/ErrorAlert";
 
 const ProductDetailPage = () => {
   const fetchProductDetailInfo = useProductsStore(
@@ -16,9 +18,32 @@ const ProductDetailPage = () => {
 
   const { id } = useParams();
   const isLoading = useProductsStore((state) => state.isLoading);
+  const isError = useProductsStore((state) => state.isError);
 
-  return (
-    <>
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    if (id) {
+      fetchProductDetailInfo(id);
+    }
+  }, [fetchProductDetailInfo, id]);
+
+  const error =
+    isError && !isLoading ? (
+      <ErrorAlert
+        errorMessage="Товар не найден"
+        onClick={() => {
+          if (id) {
+            fetchProductDetailInfo(id);
+          }
+        }}
+      />
+    ) : null;
+
+  const content =
+    !isLoading && !isError ? (
       <Spin description="Loading" size="large" spinning={isLoading}>
         <Row
           gutter={[16, 16]}
@@ -32,11 +57,7 @@ const ProductDetailPage = () => {
         >
           <Col className={cls.content} xs={24} md={18}>
             <Flex gap="medium" vertical>
-              <ProductInfo
-                fetchProduct={fetchProductDetailInfo}
-                product={currentProduct}
-                productId={id || ""}
-              />
+              <ProductInfo product={currentProduct} />
               <ProductChart priceHistory={currentProduct?.priceHistory || []} />
               <ProductForecast
                 priceHistory={currentProduct?.priceHistory || []}
@@ -59,6 +80,11 @@ const ProductDetailPage = () => {
           </Col>
         </Row>
       </Spin>
+    ) : null;
+  return (
+    <>
+      {error}
+      {content}
     </>
   );
 };

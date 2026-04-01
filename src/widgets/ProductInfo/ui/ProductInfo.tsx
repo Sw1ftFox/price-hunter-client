@@ -3,27 +3,14 @@ import { formatTimeAgo } from "@/shared/utils/FormatTimeAgo";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { Button, Card, Flex, Image, Space } from "antd";
 import { Typography } from "antd";
-import { useEffect } from "react";
 import cls from "./ProductInfo.module.scss";
 
 interface ProductInfoProps {
-  productId: string;
-  fetchProduct: (productId: string) => void;
   product: ProductDetailInfo | null;
 }
 
 const { Title, Paragraph, Text } = Typography;
-export const ProductInfo = ({
-  productId,
-  fetchProduct,
-  product,
-}: ProductInfoProps) => {
-  useEffect(() => {
-    if (productId) {
-      fetchProduct(productId);
-    }
-  }, [fetchProduct, productId]);
-
+export const ProductInfo = ({ product }: ProductInfoProps) => {
   const prices = product?.priceHistory.map((item) => item.price) ?? [];
 
   const maxPrice = prices.length > 0 ? Math.max(...prices) : 0;
@@ -79,14 +66,14 @@ export const ProductInfo = ({
             Максимальная цена:{" "}
             <Text type="danger" style={{ fontSize: "1rem", fontWeight: 600 }}>
               {" "}
-              {maxPrice}
+              {maxPrice} ₽
             </Text>
           </Paragraph>
           <Paragraph style={{ margin: 0, fontSize: "1.1rem" }}>
             Минимальная цена:{" "}
             <Text type="success" style={{ fontSize: "1rem", fontWeight: 600 }}>
               {" "}
-              {minPrice}
+              {minPrice} ₽
             </Text>
           </Paragraph>
         </Card>
