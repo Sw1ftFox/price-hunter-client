@@ -3,9 +3,10 @@ import { ProductList } from "@/widgets/ProductList";
 import { useAuthStore } from "@/features/useAuthStore/useAuthStore";
 import { useState } from "react";
 import { AddProductModal } from "@/widgets/AddProductModal";
-import { BackLink } from "@/shared/ui/BackLink/BackLink";
 import { Header } from "@/widgets/Header";
 import { type ProductSortType } from "@/shared/types/ProductSort";
+import { Breadcrumb } from "antd";
+import { ArrowLeftOutlined, HomeOutlined } from "@ant-design/icons";
 
 const ProductsPage = () => {
   const logout = useAuthStore((state) => state.logout);
@@ -32,7 +33,28 @@ const ProductsPage = () => {
         backgroundColor: "#f9f9f9",
       }}
     >
-      <BackLink onClick={onExit} />
+      <Breadcrumb
+        style={{ marginBottom: 16 }}
+        items={[
+          {
+            href: "/login",
+            title: (
+              <>
+                <ArrowLeftOutlined /> Вернуться назад
+              </>
+            ),
+            onClick: onExit,
+          },
+          {
+            href: "/products",
+            title: (
+              <>
+                <HomeOutlined /> Главная
+              </>
+            ),
+          },
+        ]}
+      ></Breadcrumb>
 
       <Header
         setTerm={setTerm}

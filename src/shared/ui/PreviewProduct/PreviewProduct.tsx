@@ -19,7 +19,7 @@ export const PreviewProduct = ({ preview }: PreviewProductProps) => {
       <Row>
         <Card
           style={{
-            width: "fit-content",
+            width: "100%",
             display: "flex",
             alignItems: "center",
             margin: "0 auto",
