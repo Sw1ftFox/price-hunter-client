@@ -1,8 +1,9 @@
 import ErrorBoundary from "@/app/providers/ErrorBoundary/ui/ErrorBoundary";
-import { AuthPage } from "@/pages/AuthPage";
+import { AuthorizationPage } from "@/pages/AuthorizationPage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 import { ProductDetailPageAsync } from "@/pages/ProductDetailPage";
 import { ProductsPageAsync } from "@/pages/ProductsPage";
+import { RegistrationPage } from "@/pages/RegistrationPage";
 import ProtectedRoute from "@/shared/ui/ProtectedRoute/ProtectedRoute";
 import type { RouteProps } from "react-router-dom";
 
@@ -29,7 +30,7 @@ export const routeConfig: Record<AppRoutesValues, RouteProps> = {
     path: RoutePath.login,
     element: (
       <ErrorBoundary>
-        <AuthPage />
+        <AuthorizationPage />
       </ErrorBoundary>
     ),
   },
@@ -37,7 +38,7 @@ export const routeConfig: Record<AppRoutesValues, RouteProps> = {
     path: RoutePath.register,
     element: (
       <ErrorBoundary>
-        <AuthPage />
+        <RegistrationPage />
       </ErrorBoundary>
     ),
   },

@@ -14,7 +14,7 @@ interface AuthState {
 }
 
 export const useAuthStore = create<AuthState & AuthActions>((set) => ({
-  user: null,
+  user: StorageService.getItem('user'),
   isAuth: StorageService.getItem('user'),
   isLoading: false,
   isError: false,
@@ -28,7 +28,8 @@ export const useAuthStore = create<AuthState & AuthActions>((set) => ({
         // ВРЕМЕННО МОКИ
         set({ isLoading: false, isAuth: true, user: mockUser })
         if (onSuccess) onSuccess()
-        StorageService.saveItem('user', response.data)
+        // const { email, id, token } = response.data as User;
+        StorageService.saveItem('user', mockUser)
       })
       .catch((error) => {
         set({
