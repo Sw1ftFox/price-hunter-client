@@ -27,9 +27,10 @@ export const useAuthStore = create<AuthState & AuthActions>((set) => ({
         // set({ isLoading: false, isAuth: true, user: response.data })
         // ВРЕМЕННО МОКИ
         set({ isLoading: false, isAuth: true, user: mockUser })
-        if (onSuccess) onSuccess()
-        // const { email, id, token } = response.data as User;
-        StorageService.saveItem('user', mockUser)
+        if (onSuccess) {
+          onSuccess()
+          StorageService.saveItem('user', mockUser)
+        }
       })
       .catch((error) => {
         set({

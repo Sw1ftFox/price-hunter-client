@@ -1,10 +1,13 @@
+import { useAuthStore } from "@/features/useAuthStore/useAuthStore";
 import { useTrackingNotifications } from "@/shared/hooks/useTrackingNotifications";
 import type { ProductDetailInfo } from "@/shared/types/Product";
+import { generateTelegramLink } from "@/shared/utils/generateTelegramLink";
 import { DeleteProductModal } from "@/widgets/DeleteProductModal";
 import {
   BellFilled,
   BellOutlined,
   DeleteOutlined,
+  LinkOutlined,
   ReloadOutlined,
 } from "@ant-design/icons";
 import { Button, Flex, InputNumber } from "antd";
@@ -21,6 +24,8 @@ export const SideButtons = ({
   product,
   productId,
 }: SideButtonsProps) => {
+  const user = useAuthStore((state) => state.user);
+
   const {
     isTrackingActive,
     showThresholdInput,
@@ -127,17 +132,32 @@ export const SideButtons = ({
       )}
 
       {isTrackingActive && (
-        <Button
-          color="volcano"
-          variant="filled"
-          onClick={handleStopTracking}
-          style={{
-            width: "100%",
-          }}
-        >
-          <BellFilled />
-          Перестать отслеживать
-        </Button>
+        <>
+          <Button
+            color="volcano"
+            variant="filled"
+            onClick={handleStopTracking}
+            style={{
+              width: "100%",
+            }}
+          >
+            <BellFilled />
+            Перестать отслеживать
+          </Button>
+          <Button
+            type="link"
+            href={generateTelegramLink(user?.id, productId, threshold)}
+            color="default"
+            variant="outlined"
+            style={{
+              marginBottom: 40,
+              width: "100%",
+            }}
+          >
+            Перейти в телеграмм бота
+            <LinkOutlined />
+          </Button>
+        </>
       )}
 
       <DeleteProductModal
