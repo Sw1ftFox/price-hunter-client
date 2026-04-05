@@ -9,19 +9,11 @@ import {
   Input,
   notification,
   Typography,
-  type FormProps,
 } from "antd";
 import { useEffect } from "react";
 import { PageLoader } from "@/shared/ui/PageLoader/PageLoader";
 import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
-
-type FieldType = {
-  mail: string;
-  password: string;
-  confirm: string;
-};
-
-type NotificationType = "success" | "info" | "warning" | "error";
+import { useAuth } from "@/shared/hooks/useAuth";
 
 const { Title, Text } = Typography;
 
@@ -29,38 +21,26 @@ export const RegistrationPage = () => {
   const navigate = useNavigate();
 
   const user = useAuthStore((state) => state.user);
-  const authUser = useAuthStore((state) => state.authUser);
   const isLoading = useAuthStore((state) => state.isLoading);
   const isError = useAuthStore((state) => state.isError);
   const errorMessage = useAuthStore((state) => state.errorMessage);
 
   const [api, contextHolder] = notification.useNotification();
 
-  const openNotificationWithIcon = (type: NotificationType) => {
-    api[type]({
-      title: "Ошибка авторизации",
-      description: errorMessage || "Не получилось войти в аккаунт",
-    });
-  };
-
-  const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-    const { mail, password } = values;
-    authUser(mail, password, "register", () => {
-      navigate("/products");
-    });
-  };
+  const { onFinish } = useAuth(
+    api,
+    {
+      title: "Ошибка регистрации",
+      description: errorMessage || "Не получилось создать аккаунт",
+    },
+    "register",
+  );
 
   useEffect(() => {
     if (user) {
       navigate("/products");
     }
   }, [user]);
-
-  useEffect(() => {
-    if (!isLoading && isError) {
-      openNotificationWithIcon("error");
-    }
-  }, [isError]);
 
   const loading = isLoading && !isError ? <PageLoader /> : null;
   const content =
@@ -138,11 +118,7 @@ export const RegistrationPage = () => {
                     if (!value || getFieldValue("password") === value) {
                       return Promise.resolve();
                     }
-                    return Promise.reject(
-                      new Error(
-                        "Новый пароль, который вы ввели, не соответствует!",
-                      ),
-                    );
+                    return Promise.reject(new Error("Пароли не совпадают!"));
                   },
                 }),
               ]}

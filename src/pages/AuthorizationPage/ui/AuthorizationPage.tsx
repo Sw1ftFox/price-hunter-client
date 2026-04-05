@@ -8,19 +8,12 @@ import {
   Input,
   notification,
   Typography,
-  type FormProps,
 } from "antd";
 import { useAuthStore } from "@/features/useAuthStore/useAuthStore";
 import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
 import { PageLoader } from "@/shared/ui/PageLoader/PageLoader";
 import { useEffect } from "react";
-
-type FieldType = {
-  mail: string;
-  password: string;
-};
-
-type NotificationType = "success" | "info" | "warning" | "error";
+import { useAuth } from "@/shared/hooks/useAuth";
 
 const { Title, Text } = Typography;
 
@@ -28,38 +21,26 @@ export const AuthorizationPage = () => {
   const navigate = useNavigate();
 
   const user = useAuthStore((state) => state.user);
-  const authUser = useAuthStore((state) => state.authUser);
   const isLoading = useAuthStore((state) => state.isLoading);
   const isError = useAuthStore((state) => state.isError);
   const errorMessage = useAuthStore((state) => state.errorMessage);
 
   const [api, contextHolder] = notification.useNotification();
 
-  const openNotificationWithIcon = (type: NotificationType) => {
-    api[type]({
+  const { onFinish } = useAuth(
+    api,
+    {
       title: "Ошибка авторизации",
       description: errorMessage || "Не получилось войти в аккаунт",
-    });
-  };
-
-  const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-    const { mail, password } = values;
-    authUser(mail, password, "login", () => {
-      navigate("/products");
-    });
-  };
+    },
+    "login",
+  );
 
   useEffect(() => {
     if (user) {
       navigate("/products");
     }
   }, [user]);
-
-  useEffect(() => {
-    if (!isLoading && isError) {
-      openNotificationWithIcon("error");
-    }
-  }, [isError]);
 
   const loading = isLoading && !isError ? <PageLoader /> : null;
   const content =

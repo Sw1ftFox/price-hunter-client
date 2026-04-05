@@ -4,12 +4,15 @@ import {
   BellFilled,
   BellOutlined,
   DeleteOutlined,
+  LinkOutlined,
   MenuOutlined,
   ReloadOutlined,
 } from "@ant-design/icons";
 import { useTrackingNotifications } from "@/shared/hooks/useTrackingNotifications";
 import { DeleteProductModal } from "@/widgets/DeleteProductModal";
 import type { ProductDetailInfo } from "@/shared/types/Product";
+import { generateTelegramLink } from "@/shared/utils/generateTelegramLink";
+import { useAuthStore } from "@/features/useAuthStore/useAuthStore";
 
 interface SideButtonsMobileProps {
   className: string;
@@ -22,6 +25,8 @@ export const SideButtonsMobile = ({
   product,
   productId,
 }: SideButtonsMobileProps) => {
+  const user = useAuthStore((state) => state.user);
+
   const [open, setOpen] = useState(false);
 
   const {
@@ -140,17 +145,32 @@ export const SideButtonsMobile = ({
           )}
 
           {isTrackingActive && (
-            <Button
-              color="volcano"
-              variant="filled"
-              onClick={handleStopTracking}
-              style={{
-                width: "100%",
-              }}
-            >
-              <BellFilled />
-              Перестать отслеживать
-            </Button>
+            <>
+              <Button
+                color="volcano"
+                variant="filled"
+                onClick={handleStopTracking}
+                style={{
+                  width: "100%",
+                }}
+              >
+                <BellFilled />
+                Перестать отслеживать
+              </Button>
+              <Button
+                type="link"
+                href={generateTelegramLink(user?.id, productId, threshold)}
+                color="default"
+                variant="outlined"
+                style={{
+                  marginBottom: 40,
+                  width: "100%",
+                }}
+              >
+                Перейти в телеграмм бота
+                <LinkOutlined />
+              </Button>
+            </>
           )}
         </Flex>
       </Drawer>
