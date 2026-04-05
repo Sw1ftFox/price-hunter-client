@@ -18,7 +18,7 @@ export const UrlInput = ({ method }: UrlInputProps) => {
       previewProduct(debouncedUrl);
     }, 500);
     return () => clearTimeout(timer);
-  }, [url]);
+  }, [url, previewProduct]);
 
   return (
     <Form.Item

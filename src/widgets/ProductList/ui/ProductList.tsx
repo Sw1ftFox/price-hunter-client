@@ -21,7 +21,7 @@ export const ProductList = ({ term, sortType }: ProductListProps) => {
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [fetchProducts]);
 
   const filteredProducts = useMemo(() => {
     let result = [...products];

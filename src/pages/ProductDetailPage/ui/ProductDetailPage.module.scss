@@ -1,0 +1,19 @@
+.side__btns {
+  display: none;
+}
+
+.side__btns__mobile {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .side__btns {
+    display: flex;
+  }
+}
+
+@media (max-width: 767px) {
+  .side__btns__mobile {
+    display: flex;
+  }
+}

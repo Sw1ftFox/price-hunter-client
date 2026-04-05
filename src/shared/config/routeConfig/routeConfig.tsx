@@ -1,3 +1,4 @@
+import ErrorBoundary from "@/app/providers/ErrorBoundary/ui/ErrorBoundary";
 import { AuthPage } from "@/pages/AuthPage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 import { ProductDetailPageAsync } from "@/pages/ProductDetailPage";
@@ -26,26 +27,38 @@ export const RoutePath: Record<AppRoutesValues, string> = {
 export const routeConfig: Record<AppRoutesValues, RouteProps> = {
   [AppRoutes.LOGIN]: {
     path: RoutePath.login,
-    element: <AuthPage />,
+    element: (
+      <ErrorBoundary>
+        <AuthPage />
+      </ErrorBoundary>
+    ),
   },
   [AppRoutes.REGISTER]: {
     path: RoutePath.register,
-    element: <AuthPage />,
+    element: (
+      <ErrorBoundary>
+        <AuthPage />
+      </ErrorBoundary>
+    ),
   },
   [AppRoutes.PRODUCTS]: {
     path: RoutePath.products,
     element: (
-      <ProtectedRoute>
-        <ProductsPageAsync />
-      </ProtectedRoute>
+      <ErrorBoundary>
+        <ProtectedRoute>
+          <ProductsPageAsync />
+        </ProtectedRoute>
+      </ErrorBoundary>
     ),
   },
   [AppRoutes.PRODUCTS_ID]: {
     path: RoutePath.products_id,
     element: (
-      <ProtectedRoute>
-        <ProductDetailPageAsync />
-      </ProtectedRoute>
+      <ErrorBoundary>
+        <ProtectedRoute>
+          <ProductDetailPageAsync />
+        </ProtectedRoute>
+      </ErrorBoundary>
     ),
   },
   [AppRoutes.NOT_FOUND]: {

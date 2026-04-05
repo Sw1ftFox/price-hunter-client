@@ -4,7 +4,7 @@ export interface User {
   token: string
 }
 
-const Auth = {
+export const Auth = {
   REGISTER: 'register',
   LOGIN: 'login'
 } as const

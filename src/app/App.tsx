@@ -1,5 +1,6 @@
 import { ConfigProvider } from "antd";
 import { AppRouter } from "./providers/router";
+import { App as AppProvider } from "antd";
 
 function App() {
   return (
@@ -11,7 +12,9 @@ function App() {
           },
         }}
       >
-        <AppRouter />
+        <AppProvider>
+          <AppRouter />
+        </AppProvider>
       </ConfigProvider>
     </div>
   );
