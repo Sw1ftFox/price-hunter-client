@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Drawer, Flex, InputNumber } from "antd";
 import {
   BellFilled,
@@ -12,7 +12,7 @@ import { useTrackingNotifications } from "@/shared/hooks/useTrackingNotification
 import { DeleteProductModal } from "@/widgets/DeleteProductModal";
 import type { ProductDetailInfo } from "@/shared/types/Product";
 import { generateTelegramLink } from "@/shared/utils/generateTelegramLink";
-import { useAuthStore } from "@/features/useAuthStore/useAuthStore";
+import { useUserStore } from "@/features/useUserStore/useUserStore";
 
 interface SideButtonsMobileProps {
   className: string;
@@ -25,7 +25,13 @@ export const SideButtonsMobile = ({
   product,
   productId,
 }: SideButtonsMobileProps) => {
-  const user = useAuthStore((state) => state.user);
+  const userId = useUserStore((state) => state.userId);
+  const isLoading = useUserStore((state) => state.isLoading);
+  const fetchUserId = useUserStore((state) => state.fetchUserId);
+
+  useEffect(() => {
+    fetchUserId();
+  }, [fetchUserId]);
 
   const [open, setOpen] = useState(false);
 
@@ -155,11 +161,13 @@ export const SideButtonsMobile = ({
                 }}
               >
                 <BellFilled />
-                Перестать отслеживать
+                Не отслеживать
               </Button>
               <Button
                 type="link"
-                href={generateTelegramLink(user?.id, productId, threshold)}
+                href={generateTelegramLink(userId)}
+                disabled={isLoading}
+                target="_blank"
                 color="default"
                 variant="outlined"
                 style={{
@@ -167,7 +175,7 @@ export const SideButtonsMobile = ({
                   width: "100%",
                 }}
               >
-                Перейти в телеграмм бота
+                Телеграмм бот
                 <LinkOutlined />
               </Button>
             </>

@@ -1,9 +1,10 @@
 import type { ProductDetailInfo } from "@/shared/types/Product";
 import { formatTimeAgo } from "@/shared/utils/FormatTimeAgo";
 import { InfoCircleOutlined } from "@ant-design/icons";
-import { Button, Card, Flex, Image, Space } from "antd";
+import { Button, Card, Flex, Space } from "antd";
 import { Typography } from "antd";
 import cls from "./ProductInfo.module.scss";
+import { CardCover } from "@/shared/ui/CardCover/CardCover";
 
 interface ProductInfoProps {
   product: ProductDetailInfo | null;
@@ -19,14 +20,7 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
   return (
     <Flex gap="middle" className={cls.product__info}>
       <div style={{ width: 220 }}>
-        <Image
-          width="100%"
-          height="100%"
-          src={product?.image}
-          alt={product?.name}
-          style={{ objectFit: "cover", borderRadius: 8 }}
-          preview={false}
-        />
+        <CardCover imageUrl={product?.image} name={product?.name} />
       </div>
       <Flex vertical style={{ flex: 1 }}>
         <Title level={3}>{product?.name}</Title>

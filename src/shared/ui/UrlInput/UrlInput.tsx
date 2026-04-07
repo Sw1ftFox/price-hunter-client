@@ -9,13 +9,13 @@ interface UrlInputProps {
 
 export const UrlInput = ({ method }: UrlInputProps) => {
   const [url, setUrl] = useState<string>("");
-  const [debouncedUrl, setDebouncedUrl] = useState<string>("");
   const previewProduct = useProductsStore((state) => state.previewProduct);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setDebouncedUrl(url);
-      previewProduct(debouncedUrl);
+      if (url) {
+        previewProduct(url);
+      }
     }, 500);
     return () => clearTimeout(timer);
   }, [url, previewProduct]);

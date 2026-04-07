@@ -5,6 +5,7 @@ import {
   ArrowUpOutlined,
   DeleteOutlined,
   EyeOutlined,
+  MinusOutlined,
 } from "@ant-design/icons";
 import { DateFormatter } from "@/shared/utils/DateFormatter";
 import { useState } from "react";
@@ -31,6 +32,23 @@ export const ProductItem = ({ product }: ProductItemProps) => {
   const handleDelete = () => {
     deleteProduct(product.id);
   };
+
+  const priceChangeIcon =
+    priceChange > 0 ? (
+      <ArrowUpOutlined />
+    ) : priceChange < 0 ? (
+      <ArrowDownOutlined />
+    ) : (
+      <MinusOutlined />
+    );
+
+  const priceChangeContent =
+    priceChange > 0 ? ` +${priceChange}` : ` ${priceChange || 0}`;
+
+  const priceColor =
+    priceChange > 0 ? "#ff4d4f" : priceChange < 0 ? "#52c41a" : "#939791";
+  const priceBackgroundColor =
+    priceChange > 0 ? "#fff1f0" : priceChange < 0 ? "#f6ffed" : "#e5e8e389";
 
   return (
     <>
@@ -64,21 +82,16 @@ export const ProductItem = ({ product }: ProductItemProps) => {
                 <Col>
                   <div
                     style={{
-                      color: priceChange >= 0 ? "#ff4d4f" : "#52c41a",
-                      background: priceChange >= 0 ? "#fff1f0" : "#f6ffed",
+                      color: priceColor,
+                      background: priceBackgroundColor,
                       padding: "2px 8px",
                       borderRadius: "12px",
                       display: "inline-block",
                       fontSize: "12px",
                     }}
                   >
-                    {priceChange >= 0 ? (
-                      <ArrowUpOutlined />
-                    ) : (
-                      <ArrowDownOutlined />
-                    )}
-                    {priceChange >= 0 ? ` +${priceChange}` : ` ${priceChange}`}{" "}
-                    ₽
+                    {priceChangeIcon}
+                    {priceChangeContent} ₽
                   </div>
                 </Col>
               </Row>

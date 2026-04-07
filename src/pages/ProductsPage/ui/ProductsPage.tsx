@@ -26,7 +26,6 @@ const ProductsPage = () => {
       style={{
         padding: "1rem",
         minHeight: "100vh",
-        width: "100vw",
         display: "flex",
         flexDirection: "column",
         gap: "1rem",

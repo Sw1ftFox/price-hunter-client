@@ -1,0 +1,140 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "user@example.com",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Ikl2YW4iLCJpYXQiOjE1MTYyMzkwMjJ9"
+    },
+    {
+      "id": 1775592802864,
+      "email": "1231@adasd.wqe",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Ik5ldyBVc2VyIiwiaWF0IjoxNTE2MjM5MDIyfQ"
+    }
+  ],
+  "products": [
+    {
+      "id": "prod_1",
+      "nmId": "311322319",
+      "name": "Бомбочки для ванны подарочный набор bonbons 360 гр",
+      "brand": "Laboratory KATRIN",
+      "image": "https://ir-3.ozone.ru/s3/multimedia-1-x/8242310085.jpg",
+      "currentPrice": 1450,
+      "priceChange": -50,
+      "priceChangePercent": -3.33,
+      "lastChecked": "2026-03-19T10:30:00Z",
+      "marketplace": "wb",
+      "url": "https://www.wildberries.ru/catalog/311322319/detail.aspx",
+      "description": "Подарочный набор бомбочек для ванны \"Candy Bath Bar\"...",
+      "priceHistory": [
+        {
+          "date": "2026-03-23T10:00:00Z",
+          "price": 1200
+        },
+        {
+          "date": "2026-03-24T10:00:00Z",
+          "price": 1250
+        },
+        {
+          "date": "2026-03-25T10:00:00Z",
+          "price": 1280
+        },
+        {
+          "date": "2026-03-26T10:00:00Z",
+          "price": 1300
+        },
+        {
+          "date": "2026-03-27T10:00:00Z",
+          "price": 1330
+        },
+        {
+          "date": "2026-03-28T10:00:00Z",
+          "price": 1350
+        },
+        {
+          "date": "2026-03-29T10:00:00Z",
+          "price": 1380
+        }
+      ],
+      "notification": {
+        "enabled": true,
+        "tresholdPrice": 1400
+      }
+    },
+    {
+      "id": "prod_2",
+      "nmId": "1218758714",
+      "name": "LIMALAMA Ремень мужской кожаный",
+      "brand": "LIMALAMA",
+      "image": "https://ir-3.ozone.ru/s3/multimedia-1-x/8242310085.jpg",
+      "currentPrice": 1687,
+      "priceChange": 120,
+      "priceChangePercent": 7.66,
+      "lastChecked": "2026-03-19T11:15:00Z",
+      "marketplace": "ozon",
+      "url": "https://www.ozon.ru/product/limalama-remen-remen-muzhskoy-kozhanyy-1218758714/",
+      "description": "Ремень мужской из цельного куска кожи...",
+      "priceHistory": [
+        {
+          "date": "2026-03-23T10:00:00Z",
+          "price": 1600
+        },
+        {
+          "date": "2026-03-24T10:00:00Z",
+          "price": 1630
+        },
+        {
+          "date": "2026-03-25T10:00:00Z",
+          "price": 1650
+        },
+        {
+          "date": "2026-03-26T10:00:00Z",
+          "price": 1670
+        },
+        {
+          "date": "2026-03-27T10:00:00Z",
+          "price": 1687
+        }
+      ],
+      "notification": {
+        "enabled": false,
+        "tresholdPrice": null
+      }
+    },
+    {
+      "id": "prod_3",
+      "nmId": "123456789",
+      "name": "Смартфон Xiaomi Redmi Note 13",
+      "brand": "Xiaomi",
+      "image": "",
+      "currentPrice": 24990,
+      "priceChange": -500,
+      "priceChangePercent": -1.96,
+      "lastChecked": "2026-03-19T09:45:00Z",
+      "marketplace": "wb",
+      "url": "https://www.wildberries.ru/catalog/123456789/detail.aspx",
+      "description": "Мощный смартфон...",
+      "priceHistory": [
+        {
+          "date": "2026-03-23T10:00:00Z",
+          "price": 25990
+        },
+        {
+          "date": "2026-03-24T10:00:00Z",
+          "price": 25500
+        },
+        {
+          "date": "2026-03-25T10:00:00Z",
+          "price": 25200
+        },
+        {
+          "date": "2026-03-26T10:00:00Z",
+          "price": 24990
+        }
+      ],
+      "notification": {
+        "enabled": true,
+        "tresholdPrice": 12312
+      }
+    }
+  ]
+}

@@ -28,19 +28,11 @@ export const RoutePath: Record<AppRoutesValues, string> = {
 export const routeConfig: Record<AppRoutesValues, RouteProps> = {
   [AppRoutes.LOGIN]: {
     path: RoutePath.login,
-    element: (
-      <ErrorBoundary>
-        <AuthorizationPage />
-      </ErrorBoundary>
-    ),
+    element: <AuthorizationPage />,
   },
   [AppRoutes.REGISTER]: {
     path: RoutePath.register,
-    element: (
-      <ErrorBoundary>
-        <RegistrationPage />
-      </ErrorBoundary>
-    ),
+    element: <RegistrationPage />,
   },
   [AppRoutes.PRODUCTS]: {
     path: RoutePath.products,

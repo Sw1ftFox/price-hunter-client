@@ -64,15 +64,13 @@ const ProductDetailPage = () => {
               />
             </Flex>
           </Col>
-          <Col md={6}>
+          <Col md={6} key={currentProduct?.id}>
             <SideButtons
-              key={currentProduct?.id}
               className={cls.side__btns}
               product={currentProduct}
               productId={id || ""}
             />
             <SideButtonsMobile
-              key={currentProduct?.id}
               product={currentProduct}
               productId={id || ""}
               className={cls.side__btns__mobile}
