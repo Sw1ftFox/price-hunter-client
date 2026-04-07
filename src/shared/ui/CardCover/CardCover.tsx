@@ -3,8 +3,8 @@ import { ImageStub } from "../ImageStub/ImageStub";
 const COVER_HEIGHT = 300;
 
 export const CardCover = ({
-  imageUrl,
-  name,
+  imageUrl = "",
+  name = "",
 }: {
   imageUrl?: string;
   name: string;

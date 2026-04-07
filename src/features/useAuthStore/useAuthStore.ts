@@ -2,7 +2,6 @@ import { create } from 'zustand';
 import axios from 'axios';
 import { API_BASE } from '@/app/api/config';
 import type { AuthActions, User } from '@/shared/types/User';
-import { mockUser } from '../mocks/User';
 import { StorageService } from '@/shared/utils/StorageService';
 
 interface AuthState {
@@ -21,16 +20,13 @@ export const useAuthStore = create<AuthState & AuthActions>((set) => ({
   errorMessage: '',
   authUser: (email, password, type, onSuccess) => {
     set({ isLoading: true, isError: false, errorMessage: '' })
-    // axios.get(`${API_BASE}/auth/${type}`)
-    axios.post(`${API_BASE}`, { email, password })
+    axios.post(`${API_BASE}/auth/${type}`, { email, password })
       .then((response) => {
-        // set({ isLoading: false, isAuth: true, user: response.data })
-        // ВРЕМЕННО МОКИ
-        set({ isLoading: false, isAuth: true, user: mockUser })
+        set({ isLoading: false, isAuth: true, user: response.data })
         if (onSuccess) {
           onSuccess()
-          StorageService.saveItem('user', mockUser)
         }
+        StorageService.saveItem('user', response.data)
       })
       .catch((error) => {
         set({

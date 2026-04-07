@@ -1,3 +1,4 @@
+import { usePricePadding } from "@/shared/hooks/usePricePadding";
 import type { Price } from "@/shared/types/Product";
 import { CustomTooltip } from "@/shared/ui/CustomTooltip/CustomTooltip";
 import { DateFormatter } from "@/shared/utils/DateFormatter";
@@ -24,8 +25,7 @@ export const ProductChart = ({ priceHistory }: ProductChartProps) => {
     date: DateFormatter.formatDate(item.date),
   }));
 
-  const prices = pricesWithFormattedDate.map((item) => item.price);
-  const upperLimitYAxis = Math.max(...prices) * 1.5;
+  const { upperLimit, lowerLimit } = usePricePadding(pricesWithFormattedDate);
 
   return (
     <Card
@@ -46,7 +46,7 @@ export const ProductChart = ({ priceHistory }: ProductChartProps) => {
           <YAxis
             tickFormatter={(value) => `${value} ₽`}
             label={{ value: "Цена", angle: -90, position: "insideLeft" }}
-            domain={[0, upperLimitYAxis]}
+            domain={[lowerLimit, upperLimit]}
           />
           <Tooltip content={<CustomTooltip />} />
           <Legend verticalAlign="top" height={36} />

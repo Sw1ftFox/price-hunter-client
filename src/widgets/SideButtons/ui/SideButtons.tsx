@@ -1,4 +1,4 @@
-import { useAuthStore } from "@/features/useAuthStore/useAuthStore";
+import { useUserStore } from "@/features/useUserStore/useUserStore";
 import { useTrackingNotifications } from "@/shared/hooks/useTrackingNotifications";
 import type { ProductDetailInfo } from "@/shared/types/Product";
 import { generateTelegramLink } from "@/shared/utils/generateTelegramLink";
@@ -11,7 +11,7 @@ import {
   ReloadOutlined,
 } from "@ant-design/icons";
 import { Button, Flex, InputNumber } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface SideButtonsProps {
   className: string;
@@ -24,7 +24,13 @@ export const SideButtons = ({
   product,
   productId,
 }: SideButtonsProps) => {
-  const user = useAuthStore((state) => state.user);
+  const userId = useUserStore((state) => state.userId);
+  const isLoading = useUserStore((state) => state.isLoading);
+  const fetchUserId = useUserStore((state) => state.fetchUserId);
+
+  useEffect(() => {
+    fetchUserId();
+  }, [fetchUserId]);
 
   const {
     isTrackingActive,
@@ -142,11 +148,13 @@ export const SideButtons = ({
             }}
           >
             <BellFilled />
-            Перестать отслеживать
+            Не отслеживать
           </Button>
           <Button
             type="link"
-            href={generateTelegramLink(user?.id, productId, threshold)}
+            href={generateTelegramLink(userId)}
+            disabled={isLoading}
+            target="_blank"
             color="default"
             variant="outlined"
             style={{
@@ -154,7 +162,7 @@ export const SideButtons = ({
               width: "100%",
             }}
           >
-            Перейти в телеграмм бота
+            Телеграмм бот
             <LinkOutlined />
           </Button>
         </>

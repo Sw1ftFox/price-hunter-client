@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import axios from 'axios';
 import { API_BASE } from '@/app/api/config';
 import type { Notification, NotificationActions } from '@/shared/types/Notification';
-import { mockNotification } from '../mocks/Notification';
+import { StorageService } from '@/shared/utils/StorageService';
 
 interface NotificationState {
   notification: Notification | null,
@@ -18,12 +18,12 @@ export const useNotificationsStore = create<NotificationState & NotificationActi
   errorMessage: '',
   addNotification: (id, tresholdPrice, enabled) => {
     set({ isLoading: true, isError: false, errorMessage: '' })
-    // axios.get(`${API_BASE}/products/${id}/notification`)
-    axios.put(`${API_BASE}/1`, { tresholdPrice, enabled })
+    const user = StorageService.getItem('user') || 'null'
+    axios.patch(`${API_BASE}/products/${id}/notification`,
+      { tresholdPrice, enabled },
+      { headers: { Authorization: `Bearer ${user?.token}` } })
       .then((response) => {
-        // set({ isLoading: false, notification: response.data })
-        // ВРЕМЕННО МОКИ
-        set({ isLoading: false, notification: mockNotification })
+        set({ isLoading: false, notification: response.data })
       })
       .catch((error) => {
         set({
@@ -35,8 +35,10 @@ export const useNotificationsStore = create<NotificationState & NotificationActi
   },
   deleteNotification: (id, enabled) => {
     set({ isLoading: true, isError: false, errorMessage: '' })
-    // axios.get(`${API_BASE}/products/${id}/notification`)
-    axios.put(`${API_BASE}/1`, { enabled })
+    const user = StorageService.getItem('user') || 'null'
+    axios.patch(`${API_BASE}/products/${id}/notification/unsubscribe`,
+      { enabled },
+      { headers: { Authorization: `Bearer ${user?.token}` } })
       .then(() => {
         set({ isLoading: false, notification: null })
       })

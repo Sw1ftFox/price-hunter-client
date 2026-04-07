@@ -5,14 +5,9 @@ import type {
   ProductActions,
   ProductDetailInfo
 } from '@/shared/types/Product';
-import {
-  mockNewProduct,
-  mockPreviewProduct,
-  mockProductDetail,
-  mockProducts
-} from '../mocks/Product';
 import axios from 'axios';
 import { API_BASE } from '@/app/api/config';
+import { StorageService } from '@/shared/utils/StorageService';
 
 interface ProductState {
   products: Product[],
@@ -32,12 +27,10 @@ export const useProductsStore = create<ProductState & ProductActions>((set) => (
   errorMessage: '',
   fetchProducts: () => {
     set({ isLoading: true, isError: false, errorMessage: '' })
-    // axios.get(`${API_BASE}/products`)
-    axios.get(`${API_BASE}`)
+    const user = StorageService.getItem('user') || 'null'
+    axios.get(`${API_BASE}/products`, { headers: { Authorization: `Bearer ${user?.token}` } })
       .then((response) => {
-        // set({ isLoading: false, products: response.data })
-        // ВРЕМЕННО МОКИ
-        set({ isLoading: false, products: mockProducts })
+        set({ isLoading: false, products: response.data })
       })
       .catch((error) => {
         set({
@@ -49,12 +42,10 @@ export const useProductsStore = create<ProductState & ProductActions>((set) => (
   },
   fetchProductDetailInfo: (id) => {
     set({ isLoading: true, isError: false, errorMessage: '' });
-    // axios.get(`${API_BASE}/products/${id}`)
-    axios.get(`${API_BASE}`)
+    const user = StorageService.getItem('user') || 'null'
+    axios.get(`${API_BASE}/products/${id}`, { headers: { Authorization: `Bearer ${user?.token}` } })
       .then((response) => {
-        // set({ isLoading: false, currentProduct: response.data })
-        // ВРЕМЕННО МОКИ
-        set({ isLoading: false, currentProduct: mockProductDetail })
+        set({ isLoading: false, currentProduct: response.data })
       })
       .catch(function (error) {
         set({
@@ -67,46 +58,44 @@ export const useProductsStore = create<ProductState & ProductActions>((set) => (
   addProduct: async (url) => {
     set({ isLoading: true, isError: false, errorMessage: '' });
     try {
-      // axios.post(`${API_BASE}/products`, {
-      const response = await axios.post(`${API_BASE}`, { url })
+      const user = StorageService.getItem('user') || 'null'
+      const response = await axios.post(`${API_BASE}/products`,
+        { url },
+        { headers: { Authorization: `Bearer ${user?.token}` } })
       const newProduct = response.data;
-      // set((state) => ({ isLoading: false, products: [...state.products, response.data] }))
-      // ВРЕМЕННО МОКИ
-      set((state) => ({
-        isLoading: false,
-        products:
-          [
-            ...state.products,
-            {
-              ...mockNewProduct,
-              id: Math.random().toString(36).substring(2, 9) + Date.now().toString(36)
-            }
-          ]
-      }))
+      set((state) => ({ isLoading: false, products: [...state.products, response.data] }))
       return newProduct;
     } catch (error) {
+      let message = 'Произошла непредвиденная ошибка';
+
+      if (axios.isAxiosError(error)) {
+        message = error.response?.data?.message || error.message;
+      } else if (error instanceof Error) {
+        message = error.message;
+      }
+
       set({
         isLoading: false,
         isError: true,
-        errorMessage: error.message
-      })
+        errorMessage: message
+      });
     }
   },
   previewProduct: (url) => {
-    // axios.post(`${API_BASE}/products/preview`, {
-    axios.post(`${API_BASE}`, {
-      url
-    })
+    const user = StorageService.getItem('user') || 'null'
+    axios.post(`${API_BASE}/products/preview`,
+      { url }
+      , { headers: { Authorization: `Bearer ${user?.token}` } })
       .then((response) => {
-        // set({ isLoading: false, preview: response.data });
-        // ВРЕМЕННО МОКИ
-        set({ preview: mockPreviewProduct });
+        set({ isLoading: false, preview: response.data });
       })
   },
   deleteProduct: (id) => {
     set({ isLoading: true, isError: false, errorMessage: '' });
-    // axios.delete(`${API_BASE}/products/${id}`)
-    axios.delete(`${API_BASE}/1`)
+    const user = StorageService.getItem('user') || 'null'
+    axios.delete(`${API_BASE}/products/${id}`,
+      { headers: { Authorization: `Bearer ${user?.token}` } }
+    )
       .then(() => {
         set((state) => ({
           isLoading: false,
