@@ -1,5 +1,6 @@
 import ErrorBoundary from "@/app/providers/ErrorBoundary/ui/ErrorBoundary";
 import { AuthorizationPage } from "@/pages/AuthorizationPage";
+import { ComparePageAsync } from "@/pages/ComparePage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 import { ProductDetailPageAsync } from "@/pages/ProductDetailPage";
 import { ProductsPageAsync } from "@/pages/ProductsPage";
@@ -12,6 +13,7 @@ export const AppRoutes = {
   REGISTER: "register",
   PRODUCTS: "products",
   PRODUCTS_ID: "products_id",
+  COMPARE: "compare",
   NOT_FOUND: "not_found",
 } as const;
 
@@ -22,6 +24,7 @@ export const RoutePath: Record<AppRoutesValues, string> = {
   [AppRoutes.REGISTER]: "/",
   [AppRoutes.PRODUCTS]: "/products",
   [AppRoutes.PRODUCTS_ID]: "/products/:id",
+  [AppRoutes.COMPARE]: "/products/compare",
   [AppRoutes.NOT_FOUND]: "*",
 };
 
@@ -50,6 +53,16 @@ export const routeConfig: Record<AppRoutesValues, RouteProps> = {
       <ErrorBoundary>
         <ProtectedRoute>
           <ProductDetailPageAsync />
+        </ProtectedRoute>
+      </ErrorBoundary>
+    ),
+  },
+  [AppRoutes.COMPARE]: {
+    path: RoutePath.compare,
+    element: (
+      <ErrorBoundary>
+        <ProtectedRoute>
+          <ComparePageAsync />
         </ProtectedRoute>
       </ErrorBoundary>
     ),

@@ -1,0 +1,1 @@
+export { ComparePageAsync } from "./ui/ComparePage.async";

@@ -1,9 +1,10 @@
+import { useCompareStore } from "@/features/useCompareStore/useCompareStore";
 import {
   PRODUCT_LABEL,
   ProductSort,
   type ProductSortType,
 } from "@/shared/types/ProductSort";
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined, SlidersOutlined } from "@ant-design/icons";
 import { Button, Input, Select, Typography } from "antd";
 
 interface HeaderProps {
@@ -19,6 +20,13 @@ export const Header = ({
   setSortType,
   setIsAddModalOpen,
 }: HeaderProps) => {
+  const setCompareMode = useCompareStore((state) => state.setCompareMode);
+  const isCompareActive = useCompareStore((state) => state.isCompareActive);
+
+  const handleChangeCompareMode = () => {
+    setCompareMode(!isCompareActive);
+  };
+
   return (
     <div
       style={{
@@ -59,6 +67,34 @@ export const Header = ({
           label: PRODUCT_LABEL[value],
         }))}
       ></Select>
+
+      {isCompareActive ? (
+        <Button
+          color="danger"
+          variant="outlined"
+          icon={<SlidersOutlined />}
+          style={{
+            fontWeight: 600,
+          }}
+          onClick={handleChangeCompareMode}
+        >
+          Выйти из сравнения
+        </Button>
+      ) : (
+        <Button
+          color="default"
+          variant="outlined"
+          icon={<SlidersOutlined />}
+          style={{
+            fontWeight: 600,
+          }}
+          onClick={() => {
+            handleChangeCompareMode();
+          }}
+        >
+          Режим сравнения
+        </Button>
+      )}
 
       <Button
         type="primary"

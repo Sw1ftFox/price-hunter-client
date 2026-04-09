@@ -1,12 +1,6 @@
 import type { Product } from "@/shared/types/Product";
-import { Button, Card, Col, Row } from "antd";
-import {
-  ArrowDownOutlined,
-  ArrowUpOutlined,
-  DeleteOutlined,
-  EyeOutlined,
-  MinusOutlined,
-} from "@ant-design/icons";
+import { Button, Card, Checkbox, Col, Row } from "antd";
+import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 import { DateFormatter } from "@/shared/utils/DateFormatter";
 import { useState } from "react";
 import { DeleteProductModal } from "@/widgets/DeleteProductModal";
@@ -14,6 +8,8 @@ import { useProductsStore } from "@/features/useProductsStore/useProductsStore";
 import cls from "./ProductItem.module.scss";
 import { CardCover } from "@/shared/ui/CardCover/CardCover";
 import { useNavigate } from "react-router-dom";
+import { getPriceChangeStyle } from "@/shared/utils/getPriceChangeStyle";
+import { useCompareStore } from "@/features/useCompareStore/useCompareStore";
 
 interface ProductItemProps {
   product: Product;
@@ -33,27 +29,21 @@ export const ProductItem = ({ product }: ProductItemProps) => {
     deleteProduct(product.id);
   };
 
-  const priceChangeIcon =
-    priceChange > 0 ? (
-      <ArrowUpOutlined />
-    ) : priceChange < 0 ? (
-      <ArrowDownOutlined />
-    ) : (
-      <MinusOutlined />
-    );
+  const isCompareActive = useCompareStore((state) => state.isCompareActive);
+  const toggleProduct = useCompareStore((state) => state.toggleProduct);
+  const selectedIds = useCompareStore((state) => state.selectedIds);
 
-  const priceChangeContent =
-    priceChange > 0 ? ` +${priceChange}` : ` ${priceChange || 0}`;
-
-  const priceColor =
-    priceChange > 0 ? "#ff4d4f" : priceChange < 0 ? "#52c41a" : "#939791";
-  const priceBackgroundColor =
-    priceChange > 0 ? "#fff1f0" : priceChange < 0 ? "#f6ffed" : "#e5e8e389";
+  const {
+    priceChangeContent,
+    priceColor,
+    priceBackgroundColor,
+    priceChangeIcon,
+  } = getPriceChangeStyle(priceChange);
 
   return (
     <>
       <Card
-        hoverable
+        hoverable={!isCompareActive}
         styles={{
           body: {
             flex: 1,
@@ -62,17 +52,45 @@ export const ProductItem = ({ product }: ProductItemProps) => {
             justifyContent: "space-between",
             padding: "12px",
           },
+          cover: {
+            opacity: isCompareActive ? "10%" : "100%",
+          },
+          root: {
+            backgroundColor: isCompareActive ? "#efefef8b" : "",
+            position: "relative",
+          },
         }}
         className={cls.product__card}
         cover={<CardCover imageUrl={image} name={name} />}
         onClick={() => {
-          navigate(`/products/${id}`);
+          if (!isCompareActive) {
+            navigate(`/products/${id}`);
+          }
         }}
       >
         <Meta
           title={name}
           description={
             <div style={{ marginTop: "auto" }}>
+              {isCompareActive ? (
+                <Checkbox
+                  style={{
+                    position: "absolute",
+                    top: 20,
+                    backgroundColor: "#fff",
+                    padding: 10,
+                    borderRadius: 10,
+                    fontWeight: 600,
+                    fontSize: "1rem",
+                  }}
+                  checked={selectedIds.has(id)}
+                  onChange={() => {
+                    toggleProduct(id);
+                  }}
+                >
+                  Сравнить
+                </Checkbox>
+              ) : null}
               <Row justify="space-between" align="middle">
                 <Col>
                   <div style={{ fontWeight: "bold", fontSize: "1.2rem" }}>
@@ -115,6 +133,7 @@ export const ProductItem = ({ product }: ProductItemProps) => {
                     onClick={(e) => {
                       e.stopPropagation();
                     }}
+                    disabled={isCompareActive}
                   >
                     Подробнее
                   </Button>
@@ -132,6 +151,7 @@ export const ProductItem = ({ product }: ProductItemProps) => {
                       color: "red",
                       fontWeight: "500",
                     }}
+                    disabled={isCompareActive}
                   >
                     Удалить
                   </Button>
@@ -151,6 +171,7 @@ export const ProductItem = ({ product }: ProductItemProps) => {
                   onClick={(e) => {
                     e.stopPropagation();
                   }}
+                  disabled={isCompareActive}
                 >
                   Ссылка на товар
                 </Button>

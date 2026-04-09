@@ -5,13 +5,16 @@ const COVER_HEIGHT = 300;
 export const CardCover = ({
   imageUrl = "",
   name = "",
+  className = "",
 }: {
+  className?: string;
   imageUrl?: string;
   name: string;
 }) => (
   <div style={{ height: COVER_HEIGHT, overflow: "hidden" }}>
     {imageUrl ? (
       <img
+        className={className}
         src={imageUrl}
         alt={`Изображение ${name}`}
         style={{
@@ -22,6 +25,7 @@ export const CardCover = ({
       />
     ) : (
       <ImageStub
+        className={className}
         style={{
           height: "100%",
           width: "100%",
