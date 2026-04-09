@@ -1,6 +1,6 @@
 import type { Price } from "../types/Product";
 
-export const usePricePadding = (prices: Price[]): { upperLimit: number, lowerLimit: number } => {
+export const getPricePadding = (prices: Price[]): { upperLimit: number, lowerLimit: number } => {
   const filteredPrices = prices
     .map((item) => item.price)
     .filter((p) => typeof p === "number" && isFinite(p));

@@ -1,4 +1,4 @@
-import { usePricePadding } from "@/shared/hooks/usePricePadding";
+import { getPricePadding } from "@/shared/utils/getPricePadding";
 import type { Price } from "@/shared/types/Product";
 import { CustomTooltip } from "@/shared/ui/CustomTooltip/CustomTooltip";
 import { DateFormatter } from "@/shared/utils/DateFormatter";
@@ -25,7 +25,7 @@ export const ProductChart = ({ priceHistory }: ProductChartProps) => {
     date: DateFormatter.formatDate(item.date),
   }));
 
-  const { upperLimit, lowerLimit } = usePricePadding(pricesWithFormattedDate);
+  const { upperLimit, lowerLimit } = getPricePadding(pricesWithFormattedDate);
 
   return (
     <Card

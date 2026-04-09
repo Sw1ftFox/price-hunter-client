@@ -47,6 +47,11 @@ server.post("/auth/register", (req, res) => {
 });
 
 server.post("/products/preview", (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "Missing or invalid token" });
+  }
+
   res.json({
     title: "Бомбочки для ванны подарочный набор bonbons 360 гр",
     image: "https://ir-3.ozone.ru/s3/multimedia-1-x/8242310085.jpg",
@@ -55,6 +60,11 @@ server.post("/products/preview", (req, res) => {
 });
 
 server.patch("/products/:id/notification", (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "Missing or invalid token" });
+  }
+
   const { id } = req.params;
   const { tresholdPrice, enabled } = req.body;
   const product = router.db.get("products").find({ id }).value();
@@ -77,6 +87,11 @@ server.patch("/products/:id/notification", (req, res) => {
 });
 
 server.patch("/products/:id/notification/unsubscribe", (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "Missing or invalid token" });
+  }
+
   const { id } = req.params;
   const product = router.db.get("products").find({ id }).value();
   if (!product) {
@@ -92,6 +107,11 @@ server.patch("/products/:id/notification/unsubscribe", (req, res) => {
 });
 
 server.post("/products", (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "Missing or invalid token" });
+  }
+
   const { url } = req.body;
   const newId = "prod_" + Date.now();
   const newProduct = {
@@ -112,6 +132,26 @@ server.post("/products", (req, res) => {
   };
   router.db.get("products").push(newProduct).write();
   res.status(201).json(newProduct);
+});
+
+server.post("/products/compare", (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "Missing or invalid token" });
+  }
+
+  const { ids } = req.body;
+  if (!Array.isArray(ids)) {
+    return res.status(400).json({ error: "ids must be an array" });
+  }
+
+  const products = router.db.get("products").value();
+  const selected = products.filter((product) => ids.includes(product.id));
+
+  if (selected.length === 0) {
+    return res.status(404).json({ error: "No products found for given ids" });
+  }
+  res.json(selected);
 });
 
 server.use(router);
