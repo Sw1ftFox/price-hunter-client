@@ -1,10 +1,10 @@
 import type { ProductDetailInfo } from "@/shared/types/Product";
-import { formatTimeAgo } from "@/shared/utils/FormatTimeAgo";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { Button, Card, Flex, Space } from "antd";
 import { Typography } from "antd";
 import cls from "./ProductInfo.module.scss";
 import { CardCover } from "@/shared/ui/CardCover/CardCover";
+import { formatTimeAgo } from "@/shared/utils/FormatTimeAgo";
 
 interface ProductInfoProps {
   product: ProductDetailInfo | null;

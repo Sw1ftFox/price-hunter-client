@@ -4,7 +4,8 @@ import {
   ProductSort,
   type ProductSortType,
 } from "@/shared/types/ProductSort";
-import { PlusOutlined, SlidersOutlined } from "@ant-design/icons";
+import { ToggleButton } from "@/shared/ui/ToggleButton/ToggleButton";
+import { PlusOutlined } from "@ant-design/icons";
 import { Button, Input, Select, Typography } from "antd";
 
 interface HeaderProps {
@@ -68,33 +69,12 @@ export const Header = ({
         }))}
       ></Select>
 
-      {isCompareActive ? (
-        <Button
-          color="danger"
-          variant="outlined"
-          icon={<SlidersOutlined />}
-          style={{
-            fontWeight: 600,
-          }}
-          onClick={handleChangeCompareMode}
-        >
-          Выйти из сравнения
-        </Button>
-      ) : (
-        <Button
-          color="default"
-          variant="outlined"
-          icon={<SlidersOutlined />}
-          style={{
-            fontWeight: 600,
-          }}
-          onClick={() => {
-            handleChangeCompareMode();
-          }}
-        >
-          Режим сравнения
-        </Button>
-      )}
+      <ToggleButton
+        renderCondition={isCompareActive}
+        onToggle={handleChangeCompareMode}
+        contentFirstButton="Выйти из сравнения"
+        contentSecondButton="Режим сравнения"
+      />
 
       <Button
         type="primary"

@@ -6,7 +6,6 @@ import {
   Table,
   Typography,
   type CheckboxOptionType,
-  type TableColumnsType,
 } from "antd";
 import {
   ArrowLeftOutlined,
@@ -18,19 +17,16 @@ import { CardCover } from "@/shared/ui/CardCover/CardCover";
 import cls from "./ComparePage.module.scss";
 import { getPriceChangeStyle } from "@/shared/utils/getPriceChangeStyle";
 import { ProductChart } from "@/widgets/ProductChart";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import type { ProductDetailInfo } from "@/shared/types/Product";
 import { useCompareStore } from "@/features/useCompareStore/useCompareStore";
 import { getPricesFromHistory } from "@/shared/utils/getPricesFromHistory";
 import { Link, useNavigate } from "react-router-dom";
+import type { CompareRow } from "@/shared/types/CompareRow";
+import { useCheckedColumns } from "@/shared/hooks/useCheckedColumns";
+import type { ColumnType } from "antd/es/table";
 
 const { Title, Text } = Typography;
-
-interface CompareRow {
-  key: string;
-  label: string;
-  [productId: string]: string | number | React.ReactNode;
-}
 
 const characteristics = [
   {
@@ -56,7 +52,7 @@ const characteristics = [
           maxWidth: 250,
         }}
       >
-        {p.name}
+        {p.name || "Название отсутствует"}
       </div>
     ),
   },
@@ -70,7 +66,7 @@ const characteristics = [
           fontSize: "1.1rem",
         }}
       >
-        {p.nmId}
+        {p.nmId || "Артикул отсутствует"}
       </div>
     ),
   },
@@ -83,7 +79,7 @@ const characteristics = [
           fontSize: "1.1rem",
         }}
       >
-        {p.brand}
+        {p.brand || "Бренд отсутствует"}
       </div>
     ),
   },
@@ -98,7 +94,7 @@ const characteristics = [
           color: `${p.marketplace === "wb" ? "#be1fb6" : "#4150f5"}`,
         }}
       >
-        {p.marketplace.toUpperCase()}
+        {p.marketplace.toUpperCase() || "Маркетплейс  отсутствует"}
       </div>
     ),
   },
@@ -107,7 +103,7 @@ const characteristics = [
     label: "Цена",
     getValue: (p: ProductDetailInfo) => (
       <div style={{ fontWeight: "bold", fontSize: "1.2rem" }}>
-        {p.currentPrice} ₽
+        {p.currentPrice || 0} ₽
       </div>
     ),
   },
@@ -134,7 +130,7 @@ const characteristics = [
           }}
         >
           {priceChangeIcon}
-          {priceChangeContent} %
+          {priceChangeContent || 0} %
         </div>
       );
     },
@@ -146,7 +142,7 @@ const characteristics = [
       const minPrice = Math.min(...getPricesFromHistory(p.priceHistory));
       return (
         <Text type="success" style={{ fontSize: "1rem", fontWeight: 600 }}>
-          {minPrice} ₽
+          {isFinite(minPrice) ? minPrice : 0} ₽
         </Text>
       );
     },
@@ -158,7 +154,7 @@ const characteristics = [
       const maxPrice = Math.max(...getPricesFromHistory(p.priceHistory));
       return (
         <Text type="danger" style={{ fontSize: "1rem", fontWeight: 600 }}>
-          {maxPrice} ₽
+          {isFinite(maxPrice) ? maxPrice : 0} ₽
         </Text>
       );
     },
@@ -182,7 +178,7 @@ const characteristics = [
     ),
   },
   {
-    key: "ulr",
+    key: "url",
     label: "Ссылка",
     getValue: (p: ProductDetailInfo) => (
       <Button
@@ -215,10 +211,20 @@ const ComparePage = () => {
   const { message } = App.useApp();
   const navigate = useNavigate();
 
-  const rows: TableColumnsType<CompareRow> = useMemo(
+  const clearCompareList = () => {
+    if (selectedProducts.length > 0) {
+      clearSelectedProducts();
+      message.success("Список сравнения успешно очищен!");
+      navigate("/products");
+    } else {
+      message.warning("Вы ничего не сравниваете!");
+    }
+  };
+
+  const rows: CompareRow[] = useMemo(
     () =>
       characteristics.map((ch) => {
-        const row = { key: ch.key, label: ch.label };
+        const row: CompareRow = { key: ch.key, label: ch.label };
         selectedProducts.forEach((p) => {
           row[p.id] = ch.getValue(p);
         });
@@ -227,7 +233,7 @@ const ComparePage = () => {
     [selectedProducts],
   );
 
-  const columns = useMemo(
+  const columns: ColumnType<CompareRow>[] = useMemo(
     () => [
       {
         title: "Характеристика",
@@ -244,27 +250,8 @@ const ComparePage = () => {
     [selectedProducts],
   );
 
-  const defaultCheckedList = columns.map((item) => item.key);
-
-  const [checkedList, setCheckedList] = useState(defaultCheckedList);
-
-  const options = useMemo(
-    () =>
-      columns.map(({ key, title }) => ({
-        label: title,
-        value: key,
-      })),
-    [columns],
-  );
-
-  const newColumns = useMemo(
-    () =>
-      columns.map((item) => ({
-        ...item,
-        hidden: !checkedList.includes(item.key as string),
-      })),
-    [checkedList, columns],
-  );
+  const { checkedList, setCheckedList, options, checkedColumns } =
+    useCheckedColumns(columns);
 
   return (
     <div
@@ -333,15 +320,7 @@ const ComparePage = () => {
           style={{
             fontWeight: 600,
           }}
-          onClick={() => {
-            if (selectedProducts.length > 0) {
-              clearSelectedProducts();
-              message.success("Список сравнения успешно очищен!");
-              navigate("/products");
-            } else {
-              message.warning("Вы ничего не сравниваете!");
-            }
-          }}
+          onClick={clearCompareList}
         >
           Очистить список сравнения
         </Button>
@@ -358,7 +337,7 @@ const ComparePage = () => {
       <Table<CompareRow>
         bordered
         pagination={false}
-        columns={newColumns}
+        columns={checkedColumns}
         dataSource={rows}
         rowKey="key"
         scroll={{ x: "max-content" }}
