@@ -90,6 +90,9 @@ export const useProductsStore = create<ProductState & ProductActions>((set) => (
         set({ isLoading: false, preview: response.data });
       })
   },
+  clearPreview: () => {
+    set({ preview: null });
+  },
   deleteProduct: (id) => {
     set({ isLoading: true, isError: false, errorMessage: '' });
     const user = StorageService.getItem('user') || 'null'

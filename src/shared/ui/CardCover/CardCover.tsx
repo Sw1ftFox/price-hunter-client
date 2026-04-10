@@ -9,7 +9,7 @@ export const CardCover = ({
 }: {
   className?: string;
   imageUrl?: string;
-  name: string;
+  name?: string;
 }) => (
   <div style={{ height: COVER_HEIGHT, overflow: "hidden" }}>
     {imageUrl ? (

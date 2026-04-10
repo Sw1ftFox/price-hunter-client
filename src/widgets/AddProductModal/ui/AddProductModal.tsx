@@ -36,6 +36,7 @@ export const AddProductModal = ({
   const isNotificationActive = Form.useWatch("isNotificationActive", form);
 
   const preview = useProductsStore((state) => state.preview);
+  const clearPreview = useProductsStore((state) => state.clearPreview);
   const addProduct = useProductsStore((state) => state.addProduct);
   const isLoading = useProductsStore((state) => state.isLoading);
   const addNotification = useNotificationsStore(
@@ -55,6 +56,7 @@ export const AddProductModal = ({
     if (newProduct && isNotificationActive && treshold) {
       addNotification(newProduct.id, treshold, true);
     }
+    clearPreview();
     setIsModalOpen(false);
   };
 
@@ -73,7 +75,10 @@ export const AddProductModal = ({
         disabled: isLoading,
       }}
       destroyOnHidden
-      onCancel={() => setIsModalOpen(false)}
+      onCancel={() => {
+        clearPreview();
+        setIsModalOpen(false);
+      }}
       style={{ border: "3px solid #FFD700", borderRadius: 11 }}
       okText="Добавить"
       cancelText="Отменить"

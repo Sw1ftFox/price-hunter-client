@@ -25,13 +25,20 @@ export const ProductItem = ({ product }: ProductItemProps) => {
   const formattedDate = DateFormatter.formatDate(lastChecked);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
-  const handleDelete = () => {
-    deleteProduct(product.id);
-  };
-
   const isCompareActive = useCompareStore((state) => state.isCompareActive);
+  const fetchSelectedProducts = useCompareStore(
+    (state) => state.fetchSelectedProducts,
+  );
   const toggleProduct = useCompareStore((state) => state.toggleProduct);
   const selectedIds = useCompareStore((state) => state.selectedIds);
+
+  const handleDelete = () => {
+    deleteProduct(product.id);
+    const filteredSelectedIds = Array.from(selectedIds).filter(
+      (id) => id !== product.id,
+    );
+    fetchSelectedProducts(filteredSelectedIds);
+  };
 
   const {
     priceChangeContent,

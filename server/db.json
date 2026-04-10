@@ -249,7 +249,7 @@
       ],
       "notification": {
         "enabled": true,
-        "tresholdPrice": 27000
+        "tresholdPrice": 1233
       }
     },
     {

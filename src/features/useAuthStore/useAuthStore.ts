@@ -1,8 +1,9 @@
 import { create } from 'zustand';
 import axios from 'axios';
 import { API_BASE } from '@/app/api/config';
-import type { AuthActions, User } from '@/shared/types/User';
+import type { User } from '@/shared/types/User';
 import { StorageService } from '@/shared/utils/StorageService';
+import type { AuthActions } from '@/shared/types/Auth';
 
 interface AuthState {
   user: User | null,
@@ -39,6 +40,6 @@ export const useAuthStore = create<AuthState & AuthActions>((set) => ({
   logout: (onExit) => {
     set({ user: null, isAuth: false })
     if (onExit) onExit()
-    StorageService.removeItem('user')
+    StorageService.clear()
   }
 }))

@@ -12,8 +12,10 @@ interface CompareState {
 }
 
 export const useCompareStore = create<CompareState & CompareActions>((set) => ({
-  selectedProducts: [],
-  selectedIds: new Set(),
+  selectedProducts: StorageService.getItem("selectedProducts") || [],
+  selectedIds: StorageService.getItem("selectedProducts") ? new Set(StorageService
+    .getItem("selectedProducts")
+    .map((product: ProductDetailInfo) => product.id)) : new Set(),
   isCompareActive: false,
   fetchSelectedProducts: (ids) => {
     const user = StorageService.getItem('user') || 'null'
@@ -23,6 +25,7 @@ export const useCompareStore = create<CompareState & CompareActions>((set) => ({
       { headers: { Authorization: `Bearer ${user?.token}` } })
       .then((response) => {
         set({ selectedProducts: response.data })
+        StorageService.saveItem("selectedProducts", response.data)
       })
   },
   setCompareMode: (value) => {
@@ -39,5 +42,6 @@ export const useCompareStore = create<CompareState & CompareActions>((set) => ({
   }),
   clearSelectedProducts: () => {
     set({ selectedProducts: [], selectedIds: new Set() })
+    StorageService.removeItem("selectedProducts");
   }
 }))
