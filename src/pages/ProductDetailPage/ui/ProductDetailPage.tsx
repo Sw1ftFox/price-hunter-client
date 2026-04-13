@@ -3,16 +3,21 @@ import { ProductForecast } from "@/widgets/ProductForecast";
 import { ProductInfo } from "@/widgets/ProductInfo";
 import { SideButtons } from "@/widgets/SideButtons";
 import { SideButtonsMobile } from "@/widgets/SideButtonsMobile";
-import { Col, Flex, Row, Spin } from "antd";
+import { Col, Flex, FloatButton, Row, Spin } from "antd";
 import cls from "./ProductDetailPage.module.scss";
 import { useProductsStore } from "@/features/useProductsStore/useProductsStore";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { ErrorAlert } from "@/shared/ui/ErrorAlert/ErrorAlert";
+import { RelatedProducts } from "@/widgets/RelatedProducts";
+import { useRecomendationsStore } from "@/features/useRecomendationsStore/useRecomendationsStore";
 
 const ProductDetailPage = () => {
   const fetchProductDetailInfo = useProductsStore(
     (state) => state.fetchProductDetailInfo,
+  );
+  const fetchRelatedProducts = useRecomendationsStore(
+    (state) => state.fetchRelatedProducts,
   );
   const currentProduct = useProductsStore((state) => state.currentProduct);
 
@@ -27,8 +32,9 @@ const ProductDetailPage = () => {
   useEffect(() => {
     if (id) {
       fetchProductDetailInfo(id);
+      fetchRelatedProducts(id);
     }
-  }, [fetchProductDetailInfo, id]);
+  }, [fetchProductDetailInfo, id, fetchRelatedProducts]);
 
   const error =
     isError && !isLoading ? (
@@ -44,7 +50,7 @@ const ProductDetailPage = () => {
 
   const content =
     !isLoading && !isError ? (
-      <Spin description="Loading" size="large" spinning={isLoading}>
+      <Spin description="Загрузка" size="large" spinning={isLoading}>
         <Row
           gutter={[16, 16]}
           style={{
@@ -62,6 +68,18 @@ const ProductDetailPage = () => {
               <ProductForecast
                 priceHistory={currentProduct?.priceHistory || []}
               />
+              <RelatedProducts
+                onClick={() => {
+                  if (id) {
+                    fetchRelatedProducts(id);
+                  }
+                }}
+                handleLoadMore={(offset) => {
+                  if (id) {
+                    fetchRelatedProducts(id, 6, offset);
+                  }
+                }}
+              />
             </Flex>
           </Col>
           <Col md={6} key={currentProduct?.id}>
@@ -77,6 +95,7 @@ const ProductDetailPage = () => {
             />
           </Col>
         </Row>
+        <FloatButton.BackTop />
       </Spin>
     ) : null;
   return (

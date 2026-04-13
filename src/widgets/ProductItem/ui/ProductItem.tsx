@@ -31,13 +31,24 @@ export const ProductItem = ({ product }: ProductItemProps) => {
   );
   const toggleProduct = useCompareStore((state) => state.toggleProduct);
   const selectedIds = useCompareStore((state) => state.selectedIds);
+  const clearSelectedProducts = useCompareStore(
+    (state) => state.clearSelectedProducts,
+  );
 
   const handleDelete = () => {
+    const selectedIdsArray = Array.from(selectedIds);
+    if (selectedIdsArray.includes(product.id)) {
+      toggleProduct(product.id);
+      const filteredSelectedIds = selectedIdsArray.filter(
+        (id) => id !== product.id,
+      );
+      if (filteredSelectedIds.length <= 0) {
+        clearSelectedProducts();
+      } else {
+        fetchSelectedProducts(filteredSelectedIds);
+      }
+    }
     deleteProduct(product.id);
-    const filteredSelectedIds = Array.from(selectedIds).filter(
-      (id) => id !== product.id,
-    );
-    fetchSelectedProducts(filteredSelectedIds);
   };
 
   const {

@@ -1,0 +1,1 @@
+export { RelatedProductItem } from './ui/RelatedProductItem'

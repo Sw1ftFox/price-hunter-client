@@ -3,6 +3,7 @@ import {
   Breadcrumb,
   Button,
   Checkbox,
+  FloatButton,
   Table,
   Typography,
   type CheckboxOptionType,
@@ -17,7 +18,7 @@ import { CardCover } from "@/shared/ui/CardCover/CardCover";
 import cls from "./ComparePage.module.scss";
 import { getPriceChangeStyle } from "@/shared/utils/getPriceChangeStyle";
 import { ProductChart } from "@/widgets/ProductChart";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import type { ProductDetailInfo } from "@/shared/types/Product";
 import { useCompareStore } from "@/features/useCompareStore/useCompareStore";
 import { getPricesFromHistory } from "@/shared/utils/getPricesFromHistory";
@@ -211,6 +212,13 @@ const ComparePage = () => {
   const { message } = App.useApp();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (selectedProducts.length <= 0) {
+      message.info("Вы не добавили товары в сравнение!");
+      navigate("/products");
+    }
+  }, []);
+
   const clearCompareList = () => {
     if (selectedProducts.length > 0) {
       clearSelectedProducts();
@@ -342,6 +350,8 @@ const ComparePage = () => {
         rowKey="key"
         scroll={{ x: "max-content" }}
       />
+
+      <FloatButton.BackTop />
     </div>
   );
 };

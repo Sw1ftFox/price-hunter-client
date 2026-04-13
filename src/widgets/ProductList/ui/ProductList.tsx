@@ -1,11 +1,10 @@
 import { useEffect, useMemo } from "react";
 import { useProductsStore } from "@/features/useProductsStore/useProductsStore";
-import { ProductItem } from "@/widgets/ProductItem";
 import { Alert } from "antd";
 import { ErrorAlert } from "@/shared/ui/ErrorAlert/ErrorAlert";
 import { SkeletonCards } from "@/shared/ui/SkeletonCards/SkeletonCards";
 import type { ProductSortType } from "@/shared/types/ProductSort";
-import cls from "./ProductList.module.scss";
+import { ProductGrid } from "@/shared/ui/ProductGrid/ProductGrid";
 
 interface ProductListProps {
   term: string;
@@ -63,11 +62,7 @@ export const ProductList = ({ term, sortType }: ProductListProps) => {
 
   const content =
     !isLoading && !isError && !isEmpty ? (
-      <div className={cls.products__list}>
-        {filteredProducts.map((product) => (
-          <ProductItem key={product.id} product={product} />
-        ))}
-      </div>
+      <ProductGrid products={filteredProducts} itemType="product" />
     ) : null;
 
   return (

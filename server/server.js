@@ -154,6 +154,51 @@ server.post("/products/compare", (req, res) => {
   res.json(selected);
 });
 
+server.get("/products/:id/recommendations", (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "Missing or invalid token" });
+  }
+
+  const { id } = req.params;
+  const limit = parseInt(req.query.limit) || 6;
+  const offset = parseInt(req.query.offset) || 0;
+
+  const productExists = router.db.get("products").find({ id }).value();
+  if (!productExists) {
+    return res.status(404).json({ error: "Product not found" });
+  }
+
+  let allProducts = router.db.get("products").value();
+  let candidates = allProducts.filter((p) => p.id !== id);
+
+  candidates = candidates.sort(() => 0.5 - Math.random());
+
+  const total = candidates.length;
+  const paginated = candidates.slice(offset, offset + limit);
+
+  const items = paginated.map((p) => ({
+    id: p.id,
+    nmId: p.nmId,
+    name: p.name,
+    brand: p.brand,
+    image: p.image,
+    currentPrice: p.currentPrice,
+    priceChange: p.priceChange,
+    priceChangePercent: p.priceChangePercent,
+    lastChecked: p.lastChecked,
+    marketplace: p.marketplace,
+    url: p.url,
+  }));
+
+  res.json({
+    total,
+    limit,
+    offset,
+    items,
+  });
+});
+
 server.use(router);
 
 const PORT = 8080;

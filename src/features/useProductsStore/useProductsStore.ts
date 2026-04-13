@@ -3,7 +3,7 @@ import type {
   PreviewProduct,
   Product,
   ProductActions,
-  ProductDetailInfo
+  ProductDetailInfo,
 } from '@/shared/types/Product';
 import axios from 'axios';
 import { API_BASE } from '@/app/api/config';
@@ -112,5 +112,5 @@ export const useProductsStore = create<ProductState & ProductActions>((set) => (
           errorMessage: error.message
         })
       });
-  }
+  },
 }))
