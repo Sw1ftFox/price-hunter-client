@@ -1,0 +1,11 @@
+@media (max-width: 1320px) {
+  .related__products__list {
+    grid-template-columns: repeat(4, minmax(100px, 1fr)) !important;
+  }
+}
+
+@media (max-width: 1070px) {
+  .related__products__list {
+    grid-template-columns: repeat(3, minmax(100px, 1fr)) !important;
+  }
+}

@@ -5,7 +5,7 @@ import { useState } from "react";
 import { AddProductModal } from "@/widgets/AddProductModal";
 import { Header } from "@/widgets/Header";
 import { type ProductSortType } from "@/shared/types/ProductSort";
-import { App, Breadcrumb, Button } from "antd";
+import { App, Breadcrumb, Button, FloatButton } from "antd";
 import {
   ArrowLeftOutlined,
   BarChartOutlined,
@@ -113,6 +113,7 @@ const ProductsPage = () => {
         isOpenModal={isAddModalOpen}
         setIsModalOpen={setIsAddModalOpen}
       />
+      <FloatButton.BackTop />
     </div>
   );
 };

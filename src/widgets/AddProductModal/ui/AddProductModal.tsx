@@ -6,7 +6,6 @@ import {
 } from "../../../shared/types/AddProductModal";
 import { AddMethod } from "@/shared/ui/AddMethod/AddMethod";
 import { UrlInput } from "@/shared/ui/UrlInput/UrlInput";
-import { TagGroup } from "@/shared/ui/TagGroup/TagGroup";
 import { NotificationCheckbox } from "@/shared/ui/NotificationCheckbox/NotificationCheckbox";
 import { PreviewProduct } from "@/shared/ui/PreviewProduct/PreviewProduct";
 import { TresholdInput } from "@/shared/ui/TresholdInput/TresholdInput";
@@ -99,7 +98,6 @@ export const AddProductModal = ({
 
       <UrlInput method={addMethod} />
 
-      <TagGroup />
       <NotificationCheckbox />
       <TresholdInput isNotificationActive={isNotificationActive} />
 

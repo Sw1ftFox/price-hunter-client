@@ -51,20 +51,6 @@ export const ProductForecast = ({ priceHistory }: ProductForecastProps) => {
         <CaretRightOutlined style={{ marginTop: 6 }} />
         {forecastContent}
       </Paragraph>
-      <Paragraph
-        style={{
-          margin: 0,
-          display: "flex",
-          alignItems: "flex-start",
-          gap: 3,
-        }}
-      >
-        <CaretRightOutlined style={{ marginTop: 6 }} />
-        <Text style={{ fontSize: "1rem" }}>
-          С учётом сезона (тег "🎄 Зимний"): в ноябре-декабре цены обычно
-          растут. Рекомендуем обратить внимание.
-        </Text>
-      </Paragraph>
     </Card>
   );
 };
