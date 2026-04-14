@@ -2,16 +2,16 @@ import { create } from 'zustand';
 import axios from 'axios';
 import { API_BASE } from '@/app/api/config';
 import { StorageService } from '@/shared/utils/StorageService';
-import type { RecomendationsActions, RelatedProducts } from '@/shared/types/Recomendation';
+import type { RelatedProductsActions, RelatedProducts } from '@/shared/types/RelatedProducts';
 
-interface RecomendationsState {
+interface RelatedProductsState {
   relatedProducts: RelatedProducts,
   isLoading: boolean,
   isError: boolean,
   errorMessage: string
 }
 
-export const useRecomendationsStore = create<RecomendationsState & RecomendationsActions>(
+export const useRelatedProductsStore = create<RelatedProductsState & RelatedProductsActions>(
   (set) => ({
     relatedProducts: { items: [], limit: 0, offset: 0, total: 0 },
     isLoading: false,
@@ -21,7 +21,7 @@ export const useRecomendationsStore = create<RecomendationsState & Recomendation
       set({ isLoading: true, isError: false, errorMessage: '' })
       const user = StorageService.getItem('user') || 'null'
       axios.get(
-        `${API_BASE}/products/${id}/recommendations`,
+        `${API_BASE}/products/${id}/related`,
         { params: { limit, offset }, headers: { Authorization: `Bearer ${user?.token}` } }
       )
         .then((response) => {

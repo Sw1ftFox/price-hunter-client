@@ -10,13 +10,14 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { ErrorAlert } from "@/shared/ui/ErrorAlert/ErrorAlert";
 import { RelatedProducts } from "@/widgets/RelatedProducts";
-import { useRecomendationsStore } from "@/features/useRecomendationsStore/useRecomendationsStore";
+// eslint-disable-next-line max-len
+import { useRelatedProductsStore } from "@/features/useRelatedProductsStore/useRelatedProductsStore";
 
 const ProductDetailPage = () => {
   const fetchProductDetailInfo = useProductsStore(
     (state) => state.fetchProductDetailInfo,
   );
-  const fetchRelatedProducts = useRecomendationsStore(
+  const fetchRelatedProducts = useRelatedProductsStore(
     (state) => state.fetchRelatedProducts,
   );
   const currentProduct = useProductsStore((state) => state.currentProduct);

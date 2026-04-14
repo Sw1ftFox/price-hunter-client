@@ -7,6 +7,6 @@ export interface RelatedProducts {
   items: Product[]
 }
 
-export interface RecomendationsActions {
+export interface RelatedProductsActions {
   fetchRelatedProducts: (id: string, limit?: number, offset?: number) => void,
 }

@@ -611,6 +611,34 @@
         "enabled": false,
         "tresholdPrice": null
       }
+    },
+    {
+      "id": "prod_11",
+      "nmId": "123453789",
+      "name": "Смартфон Xiaomi Redmi Note 15",
+      "brand": "Xiaomi",
+      "image": "https://basket-28.wbbasket.ru/vol5366/part536669/536669590/images/big/1.webp",
+      "currentPrice": 26990,
+      "priceChange": -200,
+      "priceChangePercent": -0.74,
+      "lastChecked": "2026-04-08T09:45:00Z",
+      "marketplace": "wb",
+      "url": "https://www.wildberries.ru/catalog/123456789/detail.aspx",
+      "description": "Смартфон 6.67' AMOLED, 120 Гц, Snapdragon 685, 8/256 ГБ, 5000 мАч, камера 108 МП. Отличное соотношение цена/качество.",
+      "priceHistory": [
+        {
+          "date": "2026-03-30T10:00:00Z",
+          "price": 26890
+        },
+        {
+          "date": "2026-03-31T10:00:00Z",
+          "price": 26790
+        }
+      ],
+      "notification": {
+        "enabled": true,
+        "tresholdPrice": 25000
+      }
     }
   ]
 }
