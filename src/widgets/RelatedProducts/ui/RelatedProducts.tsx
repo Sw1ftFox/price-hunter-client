@@ -1,4 +1,5 @@
-import { useRecomendationsStore } from "@/features/useRecomendationsStore/useRecomendationsStore";
+// eslint-disable-next-line max-len
+import { useRelatedProductsStore } from "@/features/useRelatedProductsStore/useRelatedProductsStore";
 import { ErrorAlert } from "@/shared/ui/ErrorAlert/ErrorAlert";
 import { ProductGrid } from "@/shared/ui/ProductGrid/ProductGrid";
 import {
@@ -21,12 +22,12 @@ export const RelatedProducts = ({
   onClick,
   handleLoadMore,
 }: RelatedProductsProps) => {
-  const relatedProducts = useRecomendationsStore(
+  const relatedProducts = useRelatedProductsStore(
     (state) => state.relatedProducts,
   );
-  const isLoading = useRecomendationsStore((state) => state.isLoading);
-  const isError = useRecomendationsStore((state) => state.isError);
-  const errorMessage = useRecomendationsStore((state) => state.errorMessage);
+  const isLoading = useRelatedProductsStore((state) => state.isLoading);
+  const isError = useRelatedProductsStore((state) => state.isError);
+  const errorMessage = useRelatedProductsStore((state) => state.errorMessage);
   const [offset, setOffset] = useState(6);
 
   const content = relatedProducts ? (

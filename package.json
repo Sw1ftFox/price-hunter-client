@@ -9,7 +9,7 @@
     "lint:ts": "npx eslint \"**/*.{ts,tsx}\"",
     "lint:ts:fix": "npx eslint \"**/*.{ts,tsx}\" --fix",
     "preview": "vite preview",
-    "json": "npx json-server --watch server/db.json --port 8080",
+    "json:db": "npx json-server --watch server/db.json --port 8080",
     "json:server": "node server/server.js"
   },
   "dependencies": {

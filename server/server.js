@@ -154,7 +154,7 @@ server.post("/products/compare", (req, res) => {
   res.json(selected);
 });
 
-server.get("/products/:id/recommendations", (req, res) => {
+server.get("/products/:id/related", (req, res) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).json({ error: "Missing or invalid token" });
@@ -197,6 +197,56 @@ server.get("/products/:id/recommendations", (req, res) => {
     offset,
     items,
   });
+});
+
+server.post("/products/recommendation", (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "Missing or invalid token" });
+  }
+
+  const { ids } = req.body;
+  if (!Array.isArray(ids) || ids.length === 0) {
+    return res.status(400).json({ error: "ids must be a non‑empty array" });
+  }
+
+  const products = router.db.get("products").value();
+  const selected = products.filter((p) => ids.includes(p.id));
+
+  if (selected.length === 0) {
+    return res.status(404).json({ error: "No products found for given ids" });
+  }
+
+  const sortedByPrice = [...selected].sort(
+    (a, b) => a.currentPrice - b.currentPrice,
+  );
+  const cheapest = sortedByPrice[0];
+  const mostExpensive = sortedByPrice[sortedByPrice.length - 1];
+
+  const sortedByChange = [...selected].sort(
+    (a, b) => a.priceChange - b.priceChange,
+  );
+  const bestDynamics = sortedByChange[0];
+
+  let recommendationText = `🤖 Я проанализировал выбранные товары. `;
+
+  if (cheapest.id === bestDynamics.id) {
+    recommendationText += `Товар "${cheapest.name}" (${cheapest.currentPrice} ₽) – самый дешёвый и при этом цена снижается на ${Math.abs(cheapest.priceChange)} ₽ (${Math.abs(cheapest.priceChangePercent)}%). Однозначно лучший выбор!`;
+  } else {
+    recommendationText += `Самый дешёвый – "${cheapest.name}" (${cheapest.currentPrice} ₽). `;
+    if (bestDynamics.priceChange < 0) {
+      recommendationText += `Однако "${bestDynamics.name}" показывает самую выгодную динамику: цена упала на ${Math.abs(bestDynamics.priceChange)} ₽ (${Math.abs(bestDynamics.priceChangePercent)}%). `;
+    } else {
+      recommendationText += `Все товары дорожают, но "${cheapest.name}" остаётся наиболее бюджетным вариантом. `;
+    }
+    recommendationText += `Рекомендую обратить внимание на "${cheapest.name}".`;
+  }
+
+  if (selected.length > 1 && cheapest.id !== mostExpensive.id) {
+    recommendationText += ` Разница с самым дорогим (${mostExpensive.name}) составляет ${mostExpensive.currentPrice - cheapest.currentPrice} ₽.`;
+  }
+
+  res.send(recommendationText);
 });
 
 server.use(router);

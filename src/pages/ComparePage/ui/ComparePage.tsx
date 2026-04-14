@@ -26,6 +26,7 @@ import { Link, useNavigate } from "react-router-dom";
 import type { CompareRow } from "@/shared/types/CompareRow";
 import { useCheckedColumns } from "@/shared/hooks/useCheckedColumns";
 import type { ColumnType } from "antd/es/table";
+import { AIRecommendation } from "@/widgets/AIRecomendation";
 
 const { Title, Text } = Typography;
 
@@ -333,6 +334,8 @@ const ComparePage = () => {
           Очистить список сравнения
         </Button>
       </div>
+
+      <AIRecommendation />
 
       <Checkbox.Group
         value={checkedList}
