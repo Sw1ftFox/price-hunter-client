@@ -25,7 +25,7 @@ export const useRecommendationsStore = create<RecommendationsState & Recommendat
       set({ isLoading: true, isError: false, errorMessage: '' })
       const user = StorageService.getItem('user') || 'null'
       axios.post(
-        `${API_BASE}/products/recommendation`,
+        `${API_BASE}/products/compare/recommendation`,
         { ids },
         { headers: { Authorization: `Bearer ${user?.token}` } }
       )
