@@ -1,4 +1,4 @@
-export function formatTimeAgo(diffMs: number | string | Date): string {
+export function formatTimeElapsed(diffMs: number | string | Date): string {
   let ms: number;
   if (typeof diffMs === 'number') {
     ms = diffMs;
