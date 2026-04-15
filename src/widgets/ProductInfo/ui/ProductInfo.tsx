@@ -4,7 +4,7 @@ import { Button, Card, Flex, Space } from "antd";
 import { Typography } from "antd";
 import cls from "./ProductInfo.module.scss";
 import { CardCover } from "@/shared/ui/CardCover/CardCover";
-import { formatTimeAgo } from "@/shared/utils/formatTimeAgo";
+import { formatTimeElapsed } from "@/shared/utils/formatTimeElapsed";
 
 interface ProductInfoProps {
   product: ProductDetailInfo | null;
@@ -53,7 +53,7 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
           <Paragraph style={{ margin: 0, fontSize: "1.1rem" }}>
             Последнее обновление:{" "}
             <Text type="success" style={{ fontSize: "1rem", fontWeight: 600 }}>
-              {formatTimeAgo(product?.lastChecked || "")}
+              {formatTimeElapsed(product?.lastChecked || "")}
             </Text>
           </Paragraph>
           <Paragraph style={{ margin: 0, fontSize: "1.1rem" }}>
