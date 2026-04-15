@@ -4,7 +4,7 @@ import { Button, Card, Flex, Space } from "antd";
 import { Typography } from "antd";
 import cls from "./ProductInfo.module.scss";
 import { CardCover } from "@/shared/ui/CardCover/CardCover";
-import { formatTimeAgo } from "@/shared/utils/FormatTimeAgo";
+import { formatTimeAgo } from "@/shared/utils/formatTimeAgo";
 
 interface ProductInfoProps {
   product: ProductDetailInfo | null;
