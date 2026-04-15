@@ -2,9 +2,9 @@ name: CI/CD
 
 on:
   push:
-    branches: [main, chore/PMSYS-30]
+    branches: [main]
   pull_request:
-    branches: [main, chore/PMSYS-30]
+    branches: [main]
 
 jobs:
   lint-and-test:
