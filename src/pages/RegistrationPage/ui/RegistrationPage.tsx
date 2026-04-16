@@ -43,107 +43,100 @@ export const RegistrationPage = () => {
   }, [user]);
 
   const loading = isLoading && !isError ? <PageLoader /> : null;
-  const content =
-    !isLoading && !isError ? (
-      <Flex
-        vertical
-        justify="center"
-        align="center"
+  const content = !isLoading ? (
+    <Flex
+      vertical
+      justify="center"
+      align="center"
+      style={{
+        minHeight: "100vh",
+        padding: "16px",
+      }}
+      className={cls.registration}
+    >
+      <Card
         style={{
-          minHeight: "100vh",
-          padding: "16px",
+          width: "100%",
+          maxWidth: 480,
+          borderRadius: 16,
+          boxShadow: "0 8px 24px rgba(0,0,0,0.1)",
         }}
-        className={cls.registration}
+        styles={{
+          body: {
+            padding: "32px 24px",
+          },
+        }}
       >
-        <Card
-          style={{
-            width: "100%",
-            maxWidth: 480,
-            borderRadius: 16,
-            boxShadow: "0 8px 24px rgba(0,0,0,0.1)",
-          }}
-          styles={{
-            body: {
-              padding: "32px 24px",
-            },
-          }}
+        <Flex vertical align="center" style={{ marginBottom: 32 }}>
+          <Title level={2} style={{ margin: 0, color: "#ffd700" }}>
+            <UserOutlined /> Регистрация
+          </Title>
+          <Text type="secondary">Зарегистрируйтесь, чтобы продолжить</Text>
+        </Flex>
+
+        <Form
+          name="register"
+          layout="vertical"
+          onFinish={onFinish}
+          autoComplete="off"
+          size="large"
         >
-          <Flex vertical align="center" style={{ marginBottom: 32 }}>
-            <Title level={2} style={{ margin: 0, color: "#ffd700" }}>
-              <UserOutlined /> Регистрация
-            </Title>
-            <Text type="secondary">Зарегистрируйтесь, чтобы продолжить</Text>
-          </Flex>
-
-          <Form
-            name="register"
-            layout="vertical"
-            onFinish={onFinish}
-            autoComplete="off"
-            size="large"
+          <Form.Item
+            label="Электронная почта"
+            name="mail"
+            rules={[
+              { required: true, message: "Введите почту" },
+              { type: "email", message: "Некорректный email" },
+            ]}
           >
-            <Form.Item
-              label="Электронная почта"
-              name="mail"
-              rules={[
-                { required: true, message: "Введите почту" },
-                { type: "email", message: "Некорректный email" },
-              ]}
-            >
-              <Input prefix={<MailOutlined />} placeholder="example@mail.com" />
-            </Form.Item>
+            <Input prefix={<MailOutlined />} placeholder="example@mail.com" />
+          </Form.Item>
 
-            <Form.Item
-              label="Пароль"
-              name="password"
-              rules={[{ required: true, message: "Введите пароль" }]}
-            >
-              <Input.Password
-                prefix={<LockOutlined />}
-                placeholder="••••••••"
-              />
-            </Form.Item>
+          <Form.Item
+            label="Пароль"
+            name="password"
+            rules={[{ required: true, message: "Введите пароль" }]}
+          >
+            <Input.Password prefix={<LockOutlined />} placeholder="••••••••" />
+          </Form.Item>
 
-            <Form.Item
-              name="confirm"
-              label="Подтвердите пароль"
-              dependencies={["password"]}
-              rules={[
-                {
-                  required: true,
-                  message: "Пожалуйста, подтвердите свой пароль!",
+          <Form.Item
+            name="confirm"
+            label="Подтвердите пароль"
+            dependencies={["password"]}
+            rules={[
+              {
+                required: true,
+                message: "Пожалуйста, подтвердите свой пароль!",
+              },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue("password") === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error("Пароли не совпадают!"));
                 },
-                ({ getFieldValue }) => ({
-                  validator(_, value) {
-                    if (!value || getFieldValue("password") === value) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject(new Error("Пароли не совпадают!"));
-                  },
-                }),
-              ]}
-            >
-              <Input.Password
-                prefix={<LockOutlined />}
-                placeholder="••••••••"
-              />
-            </Form.Item>
+              }),
+            ]}
+          >
+            <Input.Password prefix={<LockOutlined />} placeholder="••••••••" />
+          </Form.Item>
 
-            <Form.Item style={{ marginBottom: 16 }}>
-              <Button type="primary" htmlType="submit" block size="large">
-                Зарегистрироваться
-              </Button>
-            </Form.Item>
+          <Form.Item style={{ marginBottom: 16 }}>
+            <Button type="primary" htmlType="submit" block size="large">
+              Зарегистрироваться
+            </Button>
+          </Form.Item>
 
-            <Flex justify="center">
-              <Button type="link" href="/login" style={{ padding: 0 }}>
-                Уже есть аккаунт?
-              </Button>
-            </Flex>
-          </Form>
-        </Card>
-      </Flex>
-    ) : null;
+          <Flex justify="center">
+            <Button type="link" href="/login" style={{ padding: 0 }}>
+              Уже есть аккаунт?
+            </Button>
+          </Flex>
+        </Form>
+      </Card>
+    </Flex>
+  ) : null;
 
   return (
     <>

@@ -66,17 +66,17 @@ server.patch("/products/:id/notification", (req, res) => {
   }
 
   const { id } = req.params;
-  const { tresholdPrice, enabled } = req.body;
+  const { thresholdPrice, enabled } = req.body;
   const product = router.db.get("products").find({ id }).value();
   if (!product) {
     return res.status(404).json({ error: "Product not found" });
   }
   const updatedNotification = {
     enabled: enabled !== undefined ? enabled : product.notification?.enabled,
-    tresholdPrice:
-      tresholdPrice !== undefined
-        ? tresholdPrice
-        : product.notification?.tresholdPrice,
+    thresholdPrice:
+      thresholdPrice !== undefined
+        ? thresholdPrice
+        : product.notification?.thresholdPrice,
   };
   router.db
     .get("products")
@@ -97,7 +97,7 @@ server.patch("/products/:id/notification/unsubscribe", (req, res) => {
   if (!product) {
     return res.status(404).json({ error: "Product not found" });
   }
-  const updatedNotification = { enabled: false, tresholdPrice: null };
+  const updatedNotification = { enabled: false, thresholdPrice: null };
   router.db
     .get("products")
     .find({ id })
@@ -128,7 +128,7 @@ server.post("/products", (req, res) => {
     url: url,
     description: "",
     priceHistory: [],
-    notification: { enabled: false, tresholdPrice: null },
+    notification: { enabled: false, thresholdPrice: null },
   };
   router.db.get("products").push(newProduct).write();
   res.status(201).json(newProduct);
@@ -199,7 +199,7 @@ server.get("/products/:id/related", (req, res) => {
   });
 });
 
-server.post("/products/recommendation", (req, res) => {
+server.post("/products/compare/recommendation", (req, res) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).json({ error: "Missing or invalid token" });

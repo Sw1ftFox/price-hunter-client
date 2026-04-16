@@ -69,7 +69,7 @@
       ],
       "notification": {
         "enabled": true,
-        "tresholdPrice": 1400
+        "thresholdPrice": 1400
       }
     },
     {
@@ -129,7 +129,7 @@
       ],
       "notification": {
         "enabled": false,
-        "tresholdPrice": null
+        "thresholdPrice": null
       }
     },
     {
@@ -189,7 +189,7 @@
       ],
       "notification": {
         "enabled": true,
-        "tresholdPrice": 24000
+        "thresholdPrice": 24000
       }
     },
     {
@@ -249,7 +249,7 @@
       ],
       "notification": {
         "enabled": true,
-        "tresholdPrice": 1233
+        "thresholdPrice": 1233
       }
     },
     {
@@ -309,7 +309,7 @@
       ],
       "notification": {
         "enabled": false,
-        "tresholdPrice": null
+        "thresholdPrice": null
       }
     },
     {
@@ -369,7 +369,7 @@
       ],
       "notification": {
         "enabled": true,
-        "tresholdPrice": 40000
+        "thresholdPrice": 40000
       }
     },
     {
@@ -429,7 +429,7 @@
       ],
       "notification": {
         "enabled": false,
-        "tresholdPrice": null
+        "thresholdPrice": null
       }
     },
     {
@@ -489,7 +489,7 @@
       ],
       "notification": {
         "enabled": true,
-        "tresholdPrice": 5000
+        "thresholdPrice": 5000
       }
     },
     {
@@ -549,7 +549,7 @@
       ],
       "notification": {
         "enabled": false,
-        "tresholdPrice": null
+        "thresholdPrice": null
       }
     },
     {
@@ -609,7 +609,7 @@
       ],
       "notification": {
         "enabled": false,
-        "tresholdPrice": null
+        "thresholdPrice": null
       }
     },
     {
@@ -637,7 +637,26 @@
       ],
       "notification": {
         "enabled": true,
-        "tresholdPrice": 25000
+        "thresholdPrice": 25000
+      }
+    },
+    {
+      "id": "prod_1776360512313",
+      "nmId": "new123",
+      "name": "Новый товар",
+      "brand": "Unknown",
+      "image": "",
+      "currentPrice": 0,
+      "priceChange": 0,
+      "priceChangePercent": 0,
+      "lastChecked": "2026-04-16T17:28:32.313Z",
+      "marketplace": "unknown",
+      "url": "121231",
+      "description": "",
+      "priceHistory": [],
+      "notification": {
+        "enabled": true,
+        "thresholdPrice": 1231
       }
     }
   ]
