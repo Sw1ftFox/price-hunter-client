@@ -50,11 +50,9 @@ const ProductsPage = () => {
     <div
       style={{
         padding: "1rem",
-        minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
         gap: "1rem",
-        backgroundColor: "#f9f9f9",
       }}
     >
       <Breadcrumb

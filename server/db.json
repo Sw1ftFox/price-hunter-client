@@ -639,25 +639,6 @@
         "enabled": true,
         "thresholdPrice": 25000
       }
-    },
-    {
-      "id": "prod_1776360512313",
-      "nmId": "new123",
-      "name": "Новый товар",
-      "brand": "Unknown",
-      "image": "",
-      "currentPrice": 0,
-      "priceChange": 0,
-      "priceChangePercent": 0,
-      "lastChecked": "2026-04-16T17:28:32.313Z",
-      "marketplace": "unknown",
-      "url": "121231",
-      "description": "",
-      "priceHistory": [],
-      "notification": {
-        "enabled": true,
-        "thresholdPrice": 1231
-      }
     }
   ]
 }

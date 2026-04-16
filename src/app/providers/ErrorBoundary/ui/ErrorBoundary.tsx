@@ -1,3 +1,4 @@
+import { Button } from "antd";
 import { Component, type ErrorInfo, type ReactNode } from "react";
 
 type ErrorBoundaryProps = {
@@ -46,7 +47,13 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
             padding: "20px",
           }}
         >
-          <h1 style={{ color: "#dc3545", marginBottom: "20px" }}>
+          <h1
+            style={{
+              color: "#dc3545",
+              marginBottom: "20px",
+              fontSize: "1.4rem",
+            }}
+          >
             Что-то пошло не так 😔
           </h1>
 
@@ -87,9 +94,13 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
               alignItems: "center",
             }}
           >
-            <button onClick={() => window.location.reload()}>
+            <Button
+              type="default"
+              variant="outlined"
+              onClick={() => window.location.reload()}
+            >
               Перезагрузить страницу
-            </button>
+            </Button>
           </div>
         </div>
       );
