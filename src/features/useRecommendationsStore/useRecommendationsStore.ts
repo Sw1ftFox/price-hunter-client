@@ -30,9 +30,10 @@ export const useRecommendationsStore = create<RecommendationsState & Recommendat
         { headers: { Authorization: `Bearer ${user?.token}` } }
       )
         .then((response) => {
+          const recommendationText = response.data?.gptOpinion || '';
           set({
             isLoading: false,
-            recommendation: response.data
+            recommendation: recommendationText
           })
         })
         .catch((error) => {

@@ -246,7 +246,7 @@ server.post("/products/compare/recommendation", (req, res) => {
     recommendationText += ` Разница с самым дорогим (${mostExpensive.name}) составляет ${mostExpensive.currentPrice - cheapest.currentPrice} ₽.`;
   }
 
-  res.send(recommendationText);
+  res.json({ gptOpinion: recommendationText });
 });
 
 server.use(router);
