@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const ERROR_MESSAGE = "На данный момент рекомендация недоступна..."
 
@@ -8,39 +8,39 @@ export const useTextType = (
   isError?: boolean,
   clearFunc?: () => void): { displayed: string } => {
   const [displayed, setDisplayed] = useState("");
+  const intervalRef = useRef<number | null>(null);
 
-  useEffect(() => {
+  const startTyping = (fullText: string, onFinish?: () => void) => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+
     let i = 0;
-    const interval = setInterval(() => {
-      if (i < text.length) {
-        setDisplayed(text.slice(0, i));
+    setDisplayed("");
+
+    intervalRef.current = setInterval(() => {
+      if (i < fullText.length) {
+        setDisplayed(fullText.slice(0, i + 1));
         i++;
       } else {
-        clearInterval(interval);
-        if (clearFunc) clearFunc()
+        if (intervalRef.current) clearInterval(intervalRef.current);
+        if (onFinish) onFinish();
       }
-
-      return () => {
-        clearInterval(interval);
-      };
     }, speed);
-  }, [text, clearFunc, speed]);
+  };
 
   useEffect(() => {
     if (isError) {
-      let i = 0;
-      const interval = setInterval(() => {
-        if (i < ERROR_MESSAGE.length) {
-          setDisplayed(ERROR_MESSAGE.slice(0, i + 1));
-          i++;
-        } else {
-          clearInterval(interval);
-        }
-
-        return () => clearInterval(interval);
-      }, speed);
+      startTyping(ERROR_MESSAGE, clearFunc);
+    } else if (text && text.length > 0) {
+      startTyping(text);
+    } else {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      setDisplayed("");
     }
-  }, [isError, speed]);
 
-  return { displayed }
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [text, isError, speed]);
+
+  return { displayed };
 }

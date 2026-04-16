@@ -13,6 +13,7 @@ import {
   BarChartOutlined,
   ClearOutlined,
   HomeOutlined,
+  MinusOutlined,
 } from "@ant-design/icons";
 import { CardCover } from "@/shared/ui/CardCover/CardCover";
 import cls from "./ComparePage.module.scss";
@@ -164,13 +165,18 @@ const characteristics = [
   {
     key: "threshold",
     label: "Уведомление",
-    getValue: (p: ProductDetailInfo) => (
-      <Text type="warning" style={{ fontSize: "1rem", fontWeight: 600 }}>
-        {p.notification.tresholdPrice
-          ? p.notification.tresholdPrice + " ₽"
-          : "---"}
-      </Text>
-    ),
+    getValue: (p: ProductDetailInfo) => {
+      const threshold = p.notification?.thresholdPrice;
+      return (
+        <Text type="warning" style={{ fontSize: "1rem", fontWeight: 600 }}>
+          {threshold ? (
+            `${threshold} ₽`
+          ) : (
+            <MinusOutlined style={{ color: "orange" }} />
+          )}
+        </Text>
+      );
+    },
   },
   {
     key: "prices",

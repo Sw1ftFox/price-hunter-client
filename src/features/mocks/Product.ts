@@ -99,7 +99,7 @@ export const mockCompareProducts: ProductDetailInfo[] = [
     priceChangePercent: -3.33,
     notification: {
       enabled: true,
-      tresholdPrice: 1400,
+      thresholdPrice: 1400,
     },
     priceHistory: [
       { date: "2026-03-23T10:00:00Z", price: 1200 },
@@ -129,7 +129,7 @@ export const mockCompareProducts: ProductDetailInfo[] = [
     priceChangePercent: 7.66,
     notification: {
       enabled: true,
-      tresholdPrice: 1400,
+      thresholdPrice: 1400,
     },
     priceHistory: [
       { date: "2026-03-23T10:00:00Z", price: 1600 },
@@ -158,7 +158,7 @@ export const mockCompareProducts: ProductDetailInfo[] = [
     priceChangePercent: -1.96,
     notification: {
       enabled: true,
-      tresholdPrice: 1400,
+      thresholdPrice: 1400,
     },
     priceHistory: [
       { date: "2026-03-23T10:00:00Z", price: 25990 },
@@ -182,7 +182,7 @@ export const mockCompareProducts: ProductDetailInfo[] = [
     priceChangePercent: -1.96,
     notification: {
       enabled: true,
-      tresholdPrice: 1400,
+      thresholdPrice: 1400,
     },
     priceHistory: [
       { date: "2026-03-23T10:00:00Z", price: 25990 },
@@ -206,7 +206,7 @@ export const mockCompareProducts: ProductDetailInfo[] = [
     priceChangePercent: 0,
     notification: {
       enabled: true,
-      tresholdPrice: 1400,
+      thresholdPrice: 1400,
     },
     priceHistory: [
       { date: "2026-03-23T10:00:00Z", price: 25990 },
@@ -267,7 +267,7 @@ export const mockProductDetail: ProductDetailInfo = {
   priceHistory: mockPriceHistory,
   notification: {
     enabled: true,
-    tresholdPrice: 1400,
+    thresholdPrice: 1400,
   },
 };
 

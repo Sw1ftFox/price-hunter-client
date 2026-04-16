@@ -16,11 +16,11 @@ export const useNotificationsStore = create<NotificationState & NotificationActi
   isLoading: false,
   isError: false,
   errorMessage: '',
-  addNotification: (id, tresholdPrice, enabled) => {
+  addNotification: (id, thresholdPrice, enabled) => {
     set({ isLoading: true, isError: false, errorMessage: '' })
     const user = StorageService.getItem('user') || 'null'
     axios.patch(`${API_BASE}/products/${id}/notification`,
-      { tresholdPrice, enabled },
+      { thresholdPrice, enabled },
       { headers: { Authorization: `Bearer ${user?.token}` } })
       .then((response) => {
         set({ isLoading: false, notification: response.data })
