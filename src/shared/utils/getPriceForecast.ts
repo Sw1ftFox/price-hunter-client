@@ -1,7 +1,4 @@
-interface PricePoint {
-  date: string;
-  price: number;
-}
+import type { Price } from "../types/Product";
 
 interface PriceForecast {
   direction: 'up' | 'down' | 'stable';
@@ -11,7 +8,7 @@ interface PriceForecast {
 }
 
 export function getPriceForecast(
-  history: PricePoint[],
+  history: Price[],
   lookbackDays: number = 7): PriceForecast | null {
   if (!history || history.length < 2) return null;
 

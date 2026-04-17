@@ -1,9 +1,13 @@
 export class DateFormatter {
-  static formatDate(date: string): string {
-    const dateObj = new Date(date);
+  static formatDate(str: string): string {
+    const date = Date.parse(str);
+    if (isNaN(date)) {
+      return "";
+    }
+    const dateObj = new Date(str);
     const { day, month, year } = {
       day: this.formatTwoDigits(dateObj.getDate()),
-      month: this.formatTwoDigits(dateObj.getMonth()),
+      month: this.formatTwoDigits(dateObj.getMonth(), true),
       year: this.formatTwoDigits(dateObj.getFullYear()),
     }
     const formattedDate = `${day}.${month}.${year}`;
@@ -11,11 +15,11 @@ export class DateFormatter {
     return formattedDate;
   }
 
-  private static formatTwoDigits(num: number): string {
+  private static formatTwoDigits(num: number, isAddUnit?: boolean): string {
     if (num >= 10) {
-      return `${num}`;
+      return isAddUnit ? `${num + 1}` : `${num}`;
     } else {
-      return `0${num}`;
+      return isAddUnit ? `0${num + 1}` : `0${num}`;
     }
   }
 }
