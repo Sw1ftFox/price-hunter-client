@@ -29,6 +29,7 @@ export const useTextType = (
 
   useEffect(() => {
     if (isError) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       startTyping(ERROR_MESSAGE, clearFunc);
     } else if (text && text.length > 0) {
       startTyping(text);

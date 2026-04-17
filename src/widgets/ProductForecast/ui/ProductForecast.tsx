@@ -20,7 +20,7 @@ export const ProductForecast = ({ priceHistory }: ProductForecastProps) => {
       <span>{forecast.description}</span>
     </Text>
   ) : (
-    <Text style={{ fontSize: "1rem" }}>Данных недостаточно для прогноза </Text>
+    <Text style={{ fontSize: "1rem" }}>Данных недостаточно для прогноза</Text>
   );
   return (
     <Card
