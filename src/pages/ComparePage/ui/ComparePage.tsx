@@ -94,7 +94,13 @@ const characteristics = [
         style={{
           fontWeight: "bold",
           fontSize: "1.1rem",
-          color: `${p.marketplace === "wb" ? "#be1fb6" : "#4150f5"}`,
+          color: `${
+            p.marketplace.toLocaleLowerCase() === "wildberries"
+              ? "#be1fb6"
+              : p.marketplace.toLocaleLowerCase() === "ozon"
+                ? "#4150f5"
+                : "#899593"
+          }`,
         }}
       >
         {p.marketplace.toUpperCase() || "Маркетплейс  отсутствует"}
