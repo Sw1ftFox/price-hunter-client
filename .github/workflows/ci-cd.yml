@@ -28,8 +28,8 @@ jobs:
       - name: Run TypeScript check
         run: npx tsc --noEmit
 
-      # - name: Run tests
-      # run: npm test -- --ci
+      - name: Run tests
+        run: npm test
 
   build:
     needs: lint-and-test

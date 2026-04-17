@@ -4,11 +4,19 @@ import "@/app/styles/index.scss";
 import App from "@/app/App";
 import { BrowserRouter as Router } from "react-router-dom";
 
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
+const isDev = import.meta.env.VITE_IS_DEV;
+
+const content =
+  isDev === "true" ? (
+    <StrictMode>
+      <Router>
+        <App />
+      </Router>
+    </StrictMode>
+  ) : (
     <Router>
       <App />
     </Router>
-    ,
-  </StrictMode>,
-);
+  );
+
+createRoot(document.getElementById("root")!).render(content);

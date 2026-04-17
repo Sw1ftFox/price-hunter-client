@@ -10,7 +10,8 @@
     ],
     "module": "ESNext",
     "types": [
-      "vite/client"
+      "vite/client",
+      "vitest/globals"
     ],
     "skipLibCheck": true,
     "paths": {
@@ -33,7 +34,7 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
   },
   "include": [
     "src"

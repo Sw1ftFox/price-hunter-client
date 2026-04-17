@@ -1,4 +1,7 @@
 export function generateTelegramLink(
-  userId: string = "") {
-  return `https://t.me/pricehunternotificationbot?start=${userId}`
+  userId: string | number = "") {
+  return `https://t.me/pricehunternotificationbot?start=${typeof userId === "string"
+    ? userId.trim()
+    : userId
+  }`
 }
