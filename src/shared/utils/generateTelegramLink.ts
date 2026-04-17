@@ -1,8 +1,7 @@
 export function generateTelegramLink(
-  userId: string = "") {
-  if (typeof userId === "string") {
-    return `https://t.me/pricehunternotificationbot?start=${userId.trim()}`
-  } else {
-    return "";
-  }
+  userId: string | number = "") {
+  return `https://t.me/pricehunternotificationbot?start=${typeof userId === "string"
+    ? userId.trim()
+    : userId
+  }`
 }
