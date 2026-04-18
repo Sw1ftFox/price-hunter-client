@@ -3,14 +3,17 @@ import {
   Breadcrumb,
   Button,
   Checkbox,
+  Flex,
   FloatButton,
   Table,
+  Tooltip,
   Typography,
   type CheckboxOptionType,
 } from "antd";
 import {
   ArrowLeftOutlined,
   BarChartOutlined,
+  CheckCircleTwoTone,
   ClearOutlined,
   HomeOutlined,
   MinusOutlined,
@@ -28,6 +31,7 @@ import type { CompareRow } from "@/shared/types/CompareRow";
 import { useCheckedColumns } from "@/shared/hooks/useCheckedColumns";
 import type { ColumnType } from "antd/es/table";
 import { AIRecommendation } from "@/widgets/AIRecomendation";
+import { ProductBestPropertyProvider } from "@/shared/utils/ProductBestPropertyProvider";
 
 const { Title, Text } = Typography;
 
@@ -110,16 +114,30 @@ const characteristics = [
   {
     key: "currentPrice",
     label: "Цена",
-    getValue: (p: ProductDetailInfo) => (
-      <div style={{ fontWeight: "bold", fontSize: "1.2rem" }}>
+    getValue: (p: ProductDetailInfo, isBestProperty?: boolean) => (
+      <Flex
+        style={{ fontWeight: "bold", fontSize: "1.2rem" }}
+        align="center"
+        gap="medium"
+      >
         {p.currentPrice || 0} ₽
-      </div>
+        {isBestProperty && (
+          <Tooltip title="Лучшая цена" color="black">
+            <CheckCircleTwoTone
+              twoToneColor="#52c41a"
+              style={{
+                marginTop: 2,
+              }}
+            />
+          </Tooltip>
+        )}
+      </Flex>
     ),
   },
   {
     key: "priceChangePercent",
     label: "Изменение %",
-    getValue: (p: ProductDetailInfo) => {
+    getValue: (p: ProductDetailInfo, isBestProperty?: boolean) => {
       const {
         priceChangeContent,
         priceColor,
@@ -127,44 +145,92 @@ const characteristics = [
         priceChangeIcon,
       } = getPriceChangeStyle(p.priceChangePercent);
       return (
-        <div
-          style={{
-            color: priceColor,
-            background: priceBackgroundColor,
-            padding: "2px 8px",
-            borderRadius: "12px",
-            display: "inline-block",
-            fontWeight: "bold",
-            fontSize: "1rem",
-          }}
+        <Flex
+          style={{ fontWeight: "bold", fontSize: "1.2rem" }}
+          align="center"
+          gap="medium"
         >
-          {priceChangeIcon}
-          {priceChangeContent || 0} %
-        </div>
+          <div
+            style={{
+              color: priceColor,
+              background: priceBackgroundColor,
+              padding: "2px 8px",
+              borderRadius: "12px",
+              display: "inline-block",
+              fontWeight: "bold",
+              fontSize: "1rem",
+            }}
+          >
+            {priceChangeIcon}
+            {priceChangeContent || 0} %
+          </div>
+          {isBestProperty && (
+            <Tooltip title="Лучшая цена" color="black">
+              <CheckCircleTwoTone
+                twoToneColor="#52c41a"
+                style={{
+                  marginTop: 2,
+                }}
+              />
+            </Tooltip>
+          )}
+        </Flex>
       );
     },
   },
   {
     key: "minPrice",
     label: "Мин. цена",
-    getValue: (p: ProductDetailInfo) => {
+    getValue: (p: ProductDetailInfo, isBestProperty?: boolean) => {
       const minPrice = Math.min(...getPricesFromHistory(p.priceHistory));
       return (
-        <Text type="success" style={{ fontSize: "1rem", fontWeight: 600 }}>
-          {isFinite(minPrice) ? minPrice : 0} ₽
-        </Text>
+        <Flex
+          style={{ fontWeight: "bold", fontSize: "1.2rem" }}
+          align="center"
+          gap="medium"
+        >
+          <Text type="success" style={{ fontSize: "1rem", fontWeight: 600 }}>
+            {isFinite(minPrice) ? minPrice : 0} ₽
+          </Text>
+          {isBestProperty && (
+            <Tooltip title="Лучшая цена" color="black">
+              <CheckCircleTwoTone
+                twoToneColor="#52c41a"
+                style={{
+                  marginTop: 2,
+                }}
+              />
+            </Tooltip>
+          )}
+        </Flex>
       );
     },
   },
   {
     key: "maxPrice",
     label: "Макс. цена",
-    getValue: (p: ProductDetailInfo) => {
+    getValue: (p: ProductDetailInfo, isBestProperty?: boolean) => {
       const maxPrice = Math.max(...getPricesFromHistory(p.priceHistory));
       return (
-        <Text type="danger" style={{ fontSize: "1rem", fontWeight: 600 }}>
-          {isFinite(maxPrice) ? maxPrice : 0} ₽
-        </Text>
+        <Flex
+          style={{ fontWeight: "bold", fontSize: "1.2rem" }}
+          align="center"
+          gap="medium"
+        >
+          <Text type="danger" style={{ fontSize: "1rem", fontWeight: 600 }}>
+            {isFinite(maxPrice) ? maxPrice : 0} ₽
+          </Text>
+          {isBestProperty && (
+            <Tooltip title="Лучшая цена" color="black">
+              <CheckCircleTwoTone
+                twoToneColor="#52c41a"
+                style={{
+                  marginTop: 2,
+                }}
+              />
+            </Tooltip>
+          )}
+        </Flex>
       );
     },
   },
@@ -185,7 +251,7 @@ const characteristics = [
     },
   },
   {
-    key: "prices",
+    key: "priceHistory",
     label: "График",
     getValue: (p: ProductDetailInfo) => (
       <ProductChart priceHistory={p.priceHistory} />
@@ -242,16 +308,29 @@ const ComparePage = () => {
     }
   };
 
+  const productBestPropertyProvider = useMemo(
+    () => new ProductBestPropertyProvider(),
+    [],
+  );
+  const bestIds =
+    productBestPropertyProvider.findBestProductProperty(selectedProducts);
+  const bestIdsMap = bestIds as unknown as Record<string, string[]>;
+
   const rows: CompareRow[] = useMemo(
     () =>
       characteristics.map((ch) => {
         const row: CompareRow = { key: ch.key, label: ch.label };
         selectedProducts.forEach((p) => {
-          row[p.id] = ch.getValue(p);
+          const isBestProperty = bestIdsMap[ch.key]?.includes(p.id) ?? false;
+          if (isBestProperty) {
+            row[p.id] = ch.getValue(p, isBestProperty);
+          } else {
+            row[p.id] = ch.getValue(p);
+          }
         });
         return row;
       }),
-    [selectedProducts],
+    [selectedProducts, bestIdsMap],
   );
 
   const columns: ColumnType<CompareRow>[] = useMemo(
