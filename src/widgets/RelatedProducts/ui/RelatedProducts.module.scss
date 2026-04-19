@@ -9,3 +9,15 @@
     grid-template-columns: repeat(3, minmax(100px, 1fr)) !important;
   }
 }
+
+@media (max-width: 600px) {
+  .related__products__list {
+    grid-template-columns: repeat(2, minmax(100px, 1fr)) !important;
+  }
+}
+
+@media (max-width: 370px) {
+  .related__products__list {
+    grid-template-columns: repeat(1, minmax(100px, 1fr)) !important;
+  }
+}
