@@ -14,6 +14,7 @@ api.interceptors.response.use(
     console.log('🔑 Token:', user?.token);
     console.log('📡 Request URL:', `${API_BASE}/products`);
     console.log('📨 Headers:', { Authorization: `Bearer ${user?.token}` });
+    console.error('401 response data:', error.response?.data);
     const isAuthEndpoint = error.config?.url?.includes('/auth/');
     if (error.response?.status === 401 && !isAuthEndpoint) {
       StorageService.removeItem('user');

@@ -24,10 +24,10 @@ export const useAuthStore = create<AuthState & AuthActions>((set) => ({
     axios.post(`${API_BASE}/auth/${type}`, { email, password })
       .then((response) => {
         set({ isLoading: false, isAuth: true, user: response.data })
+        StorageService.saveItem('user', response.data)
         if (onSuccess) {
           onSuccess()
         }
-        StorageService.saveItem('user', response.data)
       })
       .catch((error) => {
         set({
