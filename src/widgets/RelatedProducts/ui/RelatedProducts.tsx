@@ -10,6 +10,8 @@ import {
 import { Button, Card, Space, Typography } from "antd";
 import { useState } from "react";
 import cls from "./RelatedProducts.module.scss";
+import { useProductsStore } from "@/features/useProductsStore/useProductsStore";
+import type { Product } from "@/shared/types/Product";
 
 interface RelatedProductsProps {
   onClick: () => void;
@@ -22,6 +24,7 @@ export const RelatedProducts = ({
   onClick,
   handleLoadMore,
 }: RelatedProductsProps) => {
+  const products = useProductsStore((state) => state.products);
   const relatedProducts = useRelatedProductsStore(
     (state) => state.relatedProducts,
   );
@@ -30,10 +33,22 @@ export const RelatedProducts = ({
   const errorMessage = useRelatedProductsStore((state) => state.errorMessage);
   const [offset, setOffset] = useState(6);
 
+  const productArticles = products.map((product) => product.nmId);
+
+  const filterProductsByArticles = (
+    products: Product[],
+    articles: string[],
+  ) => {
+    return products.filter((product) => !articles.includes(product.nmId));
+  };
+
   const content = relatedProducts ? (
     <>
       <ProductGrid
-        products={relatedProducts.items}
+        products={filterProductsByArticles(
+          relatedProducts.items,
+          productArticles,
+        )}
         itemType="relatedProduct"
         className={cls.related__products__list}
       />
