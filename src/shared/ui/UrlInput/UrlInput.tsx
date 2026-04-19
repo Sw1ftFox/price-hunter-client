@@ -10,15 +10,23 @@ interface UrlInputProps {
 export const UrlInput = ({ method }: UrlInputProps) => {
   const [url, setUrl] = useState<string>("");
   const previewProduct = useProductsStore((state) => state.previewProduct);
+  const clearPreview = useProductsStore((state) => state.clearPreview);
 
   useEffect(() => {
     const timer = setTimeout(() => {
+      clearPreview();
       if (url) {
-        previewProduct(url);
+        if (method === "article") {
+          previewProduct(
+            `https://www.wildberries.ru/catalog/${url}/detail.aspx`,
+          );
+        } else if (method === "link") {
+          previewProduct(url);
+        }
       }
     }, 500);
     return () => clearTimeout(timer);
-  }, [url, previewProduct]);
+  }, [url, previewProduct, method]);
 
   return (
     <Form.Item
