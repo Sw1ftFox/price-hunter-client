@@ -1,9 +1,9 @@
 import type { CompareActions } from "@/shared/types/CompareProduct";
 import { create } from "zustand";
-import axios from "axios";
 import { API_BASE } from "@/app/api/config";
 import { StorageService } from "@/shared/utils/StorageService";
 import type { ProductDetailInfo } from "@/shared/types/Product";
+import { api } from "@/app/api/axiosInstance";
 
 interface CompareState {
   selectedProducts: ProductDetailInfo[]
@@ -19,7 +19,7 @@ export const useCompareStore = create<CompareState & CompareActions>((set) => ({
   isCompareActive: false,
   fetchSelectedProducts: (ids) => {
     const user = StorageService.getItem('user') || 'null'
-    axios.post(
+    api.post(
       `${API_BASE}/products/compare`,
       { ids },
       { headers: { Authorization: `Bearer ${user?.token}` } })

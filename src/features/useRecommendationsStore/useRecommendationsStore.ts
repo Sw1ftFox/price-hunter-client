@@ -1,7 +1,7 @@
 import { create } from 'zustand';
-import axios from 'axios';
 import { API_BASE } from '@/app/api/config';
 import { StorageService } from '@/shared/utils/StorageService';
+import { api } from '@/app/api/axiosInstance';
 
 interface RecommendationsState {
   recommendation: string,
@@ -24,7 +24,7 @@ export const useRecommendationsStore = create<RecommendationsState & Recommendat
     fetchRecommendation: (ids) => {
       set({ isLoading: true, isError: false, errorMessage: '' })
       const user = StorageService.getItem('user') || 'null'
-      axios.post(
+      api.post(
         `${API_BASE}/products/compare/recommendation`,
         { ids },
         { headers: { Authorization: `Bearer ${user?.token}` } }
