@@ -1,8 +1,8 @@
 import { create } from 'zustand';
-import axios from 'axios';
 import { API_BASE } from '@/app/api/config';
 import { StorageService } from '@/shared/utils/StorageService';
 import type { RelatedProductsActions, RelatedProducts } from '@/shared/types/RelatedProducts';
+import { api } from '@/app/api/axiosInstance';
 
 interface RelatedProductsState {
   relatedProducts: RelatedProducts,
@@ -20,7 +20,7 @@ export const useRelatedProductsStore = create<RelatedProductsState & RelatedProd
     fetchRelatedProducts: (id, limit = 6, offset = 0) => {
       set({ isLoading: true, isError: false, errorMessage: '' })
       const user = StorageService.getItem('user') || 'null'
-      axios.get(
+      api.get(
         `${API_BASE}/products/${id}/related`,
         { params: { limit, offset }, headers: { Authorization: `Bearer ${user?.token}` } }
       )

@@ -8,6 +8,7 @@ import type {
 import axios from 'axios';
 import { API_BASE } from '@/app/api/config';
 import { StorageService } from '@/shared/utils/StorageService';
+import { api } from '@/app/api/axiosInstance';
 
 interface ProductState {
   products: Product[],
@@ -28,7 +29,7 @@ export const useProductsStore = create<ProductState & ProductActions>((set) => (
   fetchProducts: () => {
     set({ isLoading: true, isError: false, errorMessage: '' })
     const user = StorageService.getItem('user') || 'null'
-    axios.get(`${API_BASE}/products`, { headers: { Authorization: `Bearer ${user?.token}` } })
+    api.get(`${API_BASE}/products`, { headers: { Authorization: `Bearer ${user?.token}` } })
       .then((response) => {
         set({ isLoading: false, products: response.data })
       })
@@ -43,7 +44,7 @@ export const useProductsStore = create<ProductState & ProductActions>((set) => (
   fetchProductDetailInfo: (id) => {
     set({ isLoading: true, isError: false, errorMessage: '' });
     const user = StorageService.getItem('user') || 'null'
-    axios.get(`${API_BASE}/products/${id}`, { headers: { Authorization: `Bearer ${user?.token}` } })
+    api.get(`${API_BASE}/products/${id}`, { headers: { Authorization: `Bearer ${user?.token}` } })
       .then((response) => {
         set({ isLoading: false, currentProduct: response.data })
       })
@@ -59,11 +60,19 @@ export const useProductsStore = create<ProductState & ProductActions>((set) => (
     set({ isLoading: true, isError: false, errorMessage: '' });
     try {
       const user = StorageService.getItem('user') || 'null'
-      const response = await axios.post(`${API_BASE}/products`,
+      const response = await api.post(`${API_BASE}/products`,
         { url },
         { headers: { Authorization: `Bearer ${user?.token}` } })
       const newProduct = response.data;
-      set((state) => ({ isLoading: false, products: [...state.products, response.data] }))
+      set((state) => {
+        const productsIds = state.products.map(product => product.id);
+        if (productsIds.includes(newProduct.id)) {
+          throw new Error("Данный товар уже отслеживается!")
+        } else {
+          return { isLoading: false, products: [...state.products, response.data] }
+        }
+      })
+
       return newProduct;
     } catch (error) {
       let message = 'Произошла непредвиденная ошибка';
@@ -83,7 +92,7 @@ export const useProductsStore = create<ProductState & ProductActions>((set) => (
   },
   previewProduct: (url) => {
     const user = StorageService.getItem('user') || 'null'
-    axios.post(`${API_BASE}/products/preview`,
+    api.post(`${API_BASE}/products/preview`,
       { url }
       , { headers: { Authorization: `Bearer ${user?.token}` } })
       .then((response) => {
@@ -96,7 +105,7 @@ export const useProductsStore = create<ProductState & ProductActions>((set) => (
   deleteProduct: (id) => {
     set({ isLoading: true, isError: false, errorMessage: '' });
     const user = StorageService.getItem('user') || 'null'
-    axios.delete(`${API_BASE}/products/${id}`,
+    api.delete(`${API_BASE}/products/${id}`,
       { headers: { Authorization: `Bearer ${user?.token}` } }
     )
       .then(() => {
