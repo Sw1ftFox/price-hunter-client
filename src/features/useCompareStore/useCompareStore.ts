@@ -8,7 +8,8 @@ import { api } from "@/app/api/axiosInstance";
 interface CompareState {
   selectedProducts: ProductDetailInfo[]
   selectedIds: Set<string>,
-  isCompareActive: boolean
+  isCompareActive: boolean,
+  isLoading: boolean
 }
 
 export const useCompareStore = create<CompareState & CompareActions>((set) => ({
@@ -17,14 +18,16 @@ export const useCompareStore = create<CompareState & CompareActions>((set) => ({
     .getItem("selectedProducts")
     .map((product: ProductDetailInfo) => product.id)) : new Set(),
   isCompareActive: false,
-  fetchSelectedProducts: (ids) => {
+  isLoading: false,
+  fetchSelectedProducts: async (ids) => {
+    set({ isLoading: true })
     const user = StorageService.getItem('user') || 'null'
-    api.post(
+    return await api.post(
       `${API_BASE}/products/compare`,
       { ids },
       { headers: { Authorization: `Bearer ${user?.token}` } })
       .then((response) => {
-        set({ selectedProducts: response.data })
+        set({ isLoading: false, selectedProducts: response.data })
         StorageService.saveItem("selectedProducts", response.data)
       })
   },
