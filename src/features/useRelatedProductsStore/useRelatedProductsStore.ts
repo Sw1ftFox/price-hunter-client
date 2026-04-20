@@ -17,7 +17,7 @@ export const useRelatedProductsStore = create<RelatedProductsState & RelatedProd
     isLoading: false,
     isError: false,
     errorMessage: '',
-    fetchRelatedProducts: (id, limit = 6, offset = 0) => {
+    fetchRelatedProducts: (id, limit = 6, offset = 0, reset = true) => {
       set({ isLoading: true, isError: false, errorMessage: '' })
       const user = StorageService.getItem('user') || 'null'
       api.get(
@@ -29,7 +29,9 @@ export const useRelatedProductsStore = create<RelatedProductsState & RelatedProd
             isLoading: false,
             relatedProducts: {
               ...response.data,
-              items: [...state.relatedProducts.items, ...response.data.items]
+              items: reset
+                ? response.data.items
+                : [...state.relatedProducts.items, ...response.data.items]
             }
           }))
         })

@@ -8,5 +8,5 @@ export interface RelatedProducts {
 }
 
 export interface RelatedProductsActions {
-  fetchRelatedProducts: (id: string, limit?: number, offset?: number) => void,
+  fetchRelatedProducts: (id: string, limit?: number, offset?: number, reset?: boolean) => void,
 }

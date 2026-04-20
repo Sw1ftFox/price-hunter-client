@@ -33,7 +33,7 @@ const ProductDetailPage = () => {
   useEffect(() => {
     if (id) {
       fetchProductDetailInfo(id);
-      fetchRelatedProducts(id);
+      fetchRelatedProducts(id, 6, 0, true);
     }
   }, [fetchProductDetailInfo, id, fetchRelatedProducts]);
 
@@ -77,7 +77,7 @@ const ProductDetailPage = () => {
                 }}
                 handleLoadMore={(offset) => {
                   if (id) {
-                    fetchRelatedProducts(id, 6, offset);
+                    fetchRelatedProducts(id, 6, offset, false);
                   }
                 }}
               />
