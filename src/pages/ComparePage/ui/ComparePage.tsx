@@ -32,6 +32,7 @@ import { useCheckedColumns } from "@/shared/hooks/useCheckedColumns";
 import type { ColumnType } from "antd/es/table";
 import { AIRecommendation } from "@/widgets/AIRecomendation";
 import { ProductBestPropertyProvider } from "@/shared/utils/ProductBestPropertyProvider";
+import { PageLoader } from "@/shared/ui/PageLoader/PageLoader";
 
 const { Title, Text } = Typography;
 
@@ -288,14 +289,20 @@ const ComparePage = () => {
   const clearSelectedProducts = useCompareStore(
     (state) => state.clearSelectedProducts,
   );
+  const fetchSelectedProducts = useCompareStore(
+    (state) => state.fetchSelectedProducts,
+  );
+  const selectedIds = useCompareStore((state) => state.selectedIds);
+  const isLoading = useCompareStore((state) => state.isLoading);
   const { message } = App.useApp();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (selectedProducts.length <= 0) {
+    const ids = Array.from(selectedIds);
+    fetchSelectedProducts(ids).catch(() => {
       message.info("Вы не добавили товары в сравнение!");
       navigate("/products");
-    }
+    });
   }, []);
 
   const clearCompareList = () => {
@@ -353,7 +360,9 @@ const ComparePage = () => {
   const { checkedList, setCheckedList, options, checkedColumns } =
     useCheckedColumns(columns);
 
-  return (
+  const loading = isLoading ? <PageLoader /> : null;
+
+  const content = !isLoading ? (
     <div
       style={{
         padding: "1rem",
@@ -447,6 +456,13 @@ const ComparePage = () => {
 
       <FloatButton.BackTop />
     </div>
+  ) : null;
+
+  return (
+    <>
+      {content}
+      {loading}
+    </>
   );
 };
 

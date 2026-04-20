@@ -23,9 +23,7 @@ const ProductsPage = () => {
 
   const isCompareActive = useCompareStore((state) => state.isCompareActive);
   const selectedIds = useCompareStore((state) => state.selectedIds);
-  const fetchSelectedProducts = useCompareStore(
-    (state) => state.fetchSelectedProducts,
-  );
+
   const setCompareMode = useCompareStore((state) => state.setCompareMode);
   const { message } = App.useApp();
 
@@ -37,8 +35,6 @@ const ProductsPage = () => {
 
   const handleSubmit = () => {
     if (selectedIds.size > 0) {
-      const ids = Array.from(selectedIds);
-      fetchSelectedProducts(ids);
       setCompareMode(false);
       message.success("Товары добавлены в сравнение!");
     } else {
