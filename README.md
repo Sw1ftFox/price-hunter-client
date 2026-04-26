@@ -4,7 +4,7 @@
 
 ![Превью приложения](PriceHunterPreview.png)
 
-## 🚀 Демо и репозиторий
+## 📂 Репозиторий
 
 - **Репозиторий:** [github.com/Sw1ftFox/price-hunter-client](https://github.com/Sw1ftFox/price-hunter-client)
 
